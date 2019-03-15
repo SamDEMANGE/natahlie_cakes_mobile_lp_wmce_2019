@@ -79,12 +79,8 @@ export default class App extends React.Component {
              source={require('./assets/images/gateau_parts.png')}
              style={styles.image}
          />
-             <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Parts de gateau firebase {firebase.SDK_VERSION}
-             {database.ref('Utilisateurs/').once("value", function (snapshot)
-
-             {
-              console.log(snapshot.val())
-             })}   </Text>
+             <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Parts de gateau firebase
+                 {firebase.SDK_VERSION}  </Text>
          </View>
      </View>
     </View>
