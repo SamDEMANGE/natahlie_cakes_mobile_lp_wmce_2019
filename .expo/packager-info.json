@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 15056,
-  "expoServerNgrokUrl": "https://jy-fp3.anonymous.natahlie-cakes-mobile.exp.direct",
-  "packagerNgrokUrl": "https://packager.jy-fp3.anonymous.natahlie-cakes-mobile.exp.direct",
-  "ngrokPid": 8024
+  "packagerPid": 18540,
+  "expoServerNgrokUrl": "https://jy-fp3.anonymous.natahlie-cakes-mobile-lp-wmce-2019.exp.direct",
+  "packagerNgrokUrl": "https://packager.jy-fp3.anonymous.natahlie-cakes-mobile-lp-wmce-2019.exp.direct",
+  "ngrokPid": 20652,
+  "webpackServerPort": null
 }
