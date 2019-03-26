@@ -1,28 +1,15 @@
-import React from 'react';
-import {
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text, TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
+import React from "react";
+import {Image, Platform, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {bdd} from "../database";
+import DetailsRecette from "../components/DetailsRecette";
 import ListeRecettes from "../components/ListeRecettes";
-import {bdd} from '../database';
+import DetailsPreparation from "../components/DetailsPreparation";
 
 
+let detailrecette= bdd.ref('/Recettes/recette_01');
 
 
-
-
-let recettes= bdd.ref('/Recettes');
-
-
-export default class HomeScreen extends React.Component {
+export default class PrepScreen extends React.Component {
 
 
 
@@ -30,31 +17,36 @@ export default class HomeScreen extends React.Component {
 
 
     static navigationOptions = {
-      //  header: null,
-        title : 'Accueil'
+        header: null,
     };
 
     state = {
         isLoadingComplete: false,
+
+        preparation:[],
         recette: []
     };
 
     componentDidMount() {
-        recettes.once('value', (snapshot) => {
+        detailrecette.once('value', (snapshot) => {
             //   let data=snapshot.toJSON();
 
             //  this.setState({recettes:(data)});
 
             let data = snapshot.val();
-            let recette = Object.values(data);
-            this.setState({recette});
 
-          //  console.log(this.state.recette);
+            let etapes=Object.values(data.preparation);
+         //   let materiels=Object.values(data.materiels);
+
+         //   console.log(ingredients);
+
+            this.setState({recette: data, preparation:etapes});
+
+            //    console.log(this.state.recette);
         })
     }
 
     render() {
-
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -70,13 +62,33 @@ export default class HomeScreen extends React.Component {
 
                     <View style={styles.container}>
 
-                        <TextInput
-                            placeholder={"  Recherche..."}
+                        <Text
+
                             style={{
-                                borderBottomColor: '#000000',
-                                borderWidth: 3, marginTop: 50, width: 250, marginLeft: 50
+                                borderColor: '#e22565', borderBottomColor: '#ffffff', padding: 15, textAlign: 'center',
+                                borderWidth: 3, marginTop: 10, width: 250, marginLeft: 10
                             }}
-                        />
+                        >Ingrédients et matériels</Text>
+
+                        <Text
+
+                            style={{
+                                borderColor: '#e22565', borderBottomColor: '#ffffff', padding: 15, textAlign: 'center',
+                                borderWidth: 3, marginTop: 10, width: 250, marginLeft: 10
+                            }}
+                        >Préparation</Text>
+
+                        <Text
+
+                            style={{
+                                borderColor: '#e22565', borderBottomColor: '#ffffff', padding: 15, textAlign: 'center',
+                                borderWidth: 3, marginTop: 10, width: 250, marginLeft: 10
+                            }}
+                        >Astuces et commentaires</Text>
+
+
+
+
                         <View style={{backgroundColor: "#e22565", width: 50, height: 250, marginTop: 50}}>
                             <Image
 
@@ -103,15 +115,63 @@ export default class HomeScreen extends React.Component {
 
 
                             <View>
-                                {
-                                    this.state.recette.length > 0
-                                        ? <ListeRecettes items={this.state.recette}/>
-                                        : <Text>No items</Text>
-                                }
+                                <Image
+                                    source={{uri: this.state.recette.image}}
+                                    style={{width: 225, height: 200, marginLeft:0}}
+                                />
+                                <Text style={{fontWeight: 'bold', fontSize:20, color: '#e22565'}}>{this.state.recette.nom}</Text>
+                                <Image
+
+                                    source={require('../assets/images/favorite.png')}
+                                    style={{width: 30, marginTop: 25, marginLeft: 10}}
+                                />
+
+                                <Image
+
+                                    source={require('../assets/images/gateau_parts.png')}
+                                    style={{width: 150, marginTop: 10, marginLeft: 10}}
+                                />
+                                <Text>{this.state.recette.nb_pers} personnes</Text>
+
+                                <Image
+
+                                    source={require('../assets/images/356299-200.png')}
+                                    style={{width: 150, marginTop: 10, marginLeft: 10}}
+                                />
+                                <Text>{this.state.recette.tps_prep} minutes</Text>
+
+                                <Image
+
+                                    source={require('../assets/images/four.png')}
+                                    style={{width: 150, marginTop: 10, marginLeft: 10}}
+                                />
+                                <Text>{this.state.recette.tps_cuisson} minutes</Text>
+
+
                             </View>
 
 
                         </View>
+
+                        <View style={{left: 80, bottom: 270, right: 20}}>
+
+
+                            <View>
+
+                               <DetailsPreparation etapes={this.state.preparation}/>
+
+                            </View>
+
+
+                            <View style={{marginTop: 20}}>
+
+                                <Text>Tags : {this.state.recette.tags}</Text>
+
+                            </View>
+
+
+                        </View>
+
                     </View>
                 </ScrollView>
             </View>
@@ -155,7 +215,7 @@ export default class HomeScreen extends React.Component {
     */
 
 }
-    const
+const
     styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -244,6 +304,3 @@ export default class HomeScreen extends React.Component {
             color: '#2e78b7',
         },
     });
-
-
-
