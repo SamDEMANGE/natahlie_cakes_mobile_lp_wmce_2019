@@ -8,6 +8,9 @@ import PropTypes from 'prop-types';
 
 export default class DetailsAstucesComms extends Component {
 
+
+
+
     static propTypes = {
         astuces: PropTypes.array.isRequired,
         commentaires: PropTypes.array.isRequired
@@ -19,21 +22,21 @@ export default class DetailsAstucesComms extends Component {
         return (
 
             <View>
-                <Text style={{marginTop:20, fontWeight: 'bold', fontSize:20}}>Astuces :</Text>
+                <Text style={styles.title}>Astuces :</Text>
                 {
                     this.props.astuces.map((val,i)=>{
                         return(
-                            <Text style={{marginTop: 10}}>{i+1}.  {val} </Text>
+                            <Text style={styles.content}>{i+1}.  {val} </Text>
                         )
                     })
                 }
 
 
-                <Text style={{marginTop:20, fontWeight: 'bold', fontSize:20}}> Commentaires : </Text>
+                <Text style={styles.title}> Commentaires : </Text>
                 {
                     this.props.commentaires.map((val,i)=>{
                         return(
-                            <Text style={{marginTop: 10}}>{val.id}. User {val.user} :    {val.contenue}</Text>
+                            <Text style={styles.content}>{val.id}. User {val.user} :    {val.contenue}</Text>
                         )
                     })
                 }
@@ -44,3 +47,13 @@ export default class DetailsAstucesComms extends Component {
         );
     }
 }
+
+const
+    styles = StyleSheet.create({
+        title: {
+            marginTop:20, fontWeight: 'bold', fontSize:20
+        },
+        content: {
+            marginTop: 10
+        }
+    });

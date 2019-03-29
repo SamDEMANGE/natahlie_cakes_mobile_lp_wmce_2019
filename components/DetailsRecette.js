@@ -10,7 +10,9 @@ export default class DetailsRecette extends Component {
 
     static propTypes = {
         ingredients: PropTypes.array.isRequired,
-        materiels: PropTypes.array.isRequired
+        materiels: PropTypes.array.isRequired,
+        nb_parts: PropTypes.number.isRequired,
+        nb_parts_init: PropTypes.number.isRequired
     };
 
 
@@ -20,21 +22,21 @@ export default class DetailsRecette extends Component {
 
 
                 <View>
-                <Text style={{marginTop:20, fontWeight: 'bold', fontSize:20}}>Ingrédients :</Text>
+                <Text style={styles.title}>Ingrédients :</Text>
                     {
                         this.props.ingredients.map((val,i)=>{
                             return(
-                                <Text style={{marginTop: 10}}>{i+1}.  {val.qte} ---- {val.nom}</Text>
+                                <Text style={styles.content}>{i+1}.  {(val.qte*this.props.nb_parts)/this.props.nb_parts_init}  {val.mesure} ---- {val.nom}</Text>
                             )
                         })
                     }
 
 
-                    <Text style={{marginTop:20, fontWeight: 'bold', fontSize:20}}> Matériel : </Text>
+                    <Text style={styles.title}> Matériel : </Text>
                     {
                         this.props.materiels.map((val,i)=>{
                             return(
-                                <Text style={{marginTop: 10}}>{i+1}.   {val}</Text>
+                                <Text style={styles.content}>{i+1}.   {val}</Text>
                             )
                         })
                     }
@@ -47,3 +49,13 @@ export default class DetailsRecette extends Component {
         );
     }
 }
+
+const
+    styles = StyleSheet.create({
+        title: {
+            marginTop:20, fontWeight: 'bold', fontSize:20
+        },
+        content: {
+            marginTop: 10
+        }
+    });

@@ -9,9 +9,10 @@ import SettingsScreen from '../screens/SettingsScreen';
 import PrepScreen from "../screens/PrepScreen";
 import IngrMatScreen from "../screens/IngrMatScreen";
 import AstucesCommsScreen from "../screens/AstucesCommsScreen";
+import ListeRecettes from "../components/ListeRecettes";
 
 const Navigator = createStackNavigator({
-  Home: {screen: HomeScreen},
+  Home: {screen: HomeScreen, component: ListeRecettes},
   Preparation: {screen: PrepScreen},
   Ingredients: {screen: IngrMatScreen},
   Astuces: {screen: AstucesCommsScreen},

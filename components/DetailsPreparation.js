@@ -20,8 +20,8 @@ export default class DetailsPreparation extends Component {
                 {this.props.etapes.map((item, index) => {
                     return (
 
-                        <View key={index} style={{backgroundColor:'#fbf2c1', marginTop: 30, width:225, height:240}}>
-                            <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize:20, color: '#e22565'}}>Etape {index+1}</Text>
+                        <View key={index} style={styles.view}>
+                            <Text style={styles.content}>Etape {index+1}</Text>
                             <Text>{item}</Text>
                         </View>
                     )
@@ -30,3 +30,14 @@ export default class DetailsPreparation extends Component {
         );
     }
 }
+
+
+const
+    styles = StyleSheet.create({
+        view: {
+            backgroundColor:'#fbf2c1', marginTop: 30, width:225, height:240
+        },
+        content: {
+            textAlign: 'center', fontWeight: 'bold', fontSize:20, color: '#e22565'
+        }
+    });
