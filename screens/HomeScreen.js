@@ -90,7 +90,7 @@ export default class HomeScreen extends React.Component {
 
     displayDetail(id){
 
-        console.log(this.props.navigation);
+       // console.log(this.props.navigation);
         console.log('index'+ id);
         this.props.navigation.navigate("Ingredients", {id: id});
 

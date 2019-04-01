@@ -40,12 +40,7 @@ export default class PrepScreen extends React.Component {
     componentDidMount() {
 
         let zero='';
-        /*  if(this.props.navigation.state.params.id < 10){
-            zero = '0';
-        }
-        else{
-            zero='';
-        }*/
+      
         let detailrecette= bdd.ref('/Recettes/recette_'+zero+this.props.navigation.state.params.id);
 
         detailrecette.once('value', (snapshot) => {
