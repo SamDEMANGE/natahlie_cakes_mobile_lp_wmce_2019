@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
     Image,
     Platform,
@@ -16,19 +17,22 @@ import {bdd} from '../database';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
+import {ListItem} from 'react-native-material-ui';
 
 
 
 
 
-let recettes= bdd.ref('/Recettes').limitToFirst(20);
+
+
+let recettes= bdd.ref('/Recettes').limitToLast(20);
 
 
 export default class HomeScreen extends React.Component {
 
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.displayDetail=this.displayDetail.bind(this);
         this.search=this.search.bind(this);
 
@@ -47,22 +51,26 @@ export default class HomeScreen extends React.Component {
     };
 
     componentDidMount() {
+
+
+
         recettes.once('value', (snapshot) => {
             //   let data=snapshot.toJSON();
 
             //  this.setState({recettes:(data)});
-
+         //   console.log('id: '+snapshot.id);
+            //console.log(snapshot);
             let data = snapshot.val();
             let recette = Object.values(data);
             this.setState({recette});
+            this.setState({recette: this.state.recette.reverse()});
 
-          //  console.log(this.state.recette);
         })
     }
 
     search(value){
         console.log(value);
-        let recettes= bdd.ref('/Recettes').orderByChild('nom').startAt(value).limitToFirst(20);
+        let recettes= bdd.ref('/Recettes').orderByChild('/nom').startAt(value).limitToFirst(20);
 
         recettes.once('value', (snapshot) => {
             //   let data=snapshot.toJSON();
@@ -95,33 +103,43 @@ export default class HomeScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-                  <Header/>
+
+                <Header/>
+                    <Sidebar nb_recettes={this.state.recette.length>0 ? this.state.recette.length : 20}/>
 
 
-                    <View style={styles.container}>
-
-                        <TextInput
-                            placeholder={"  Recherche..."}
-                            style={styles.recherche}
-                            onSubmitEditing={(event)=>this.search(event.nativeEvent.text)}
-                        />
-                       <Sidebar/>
-                        <View style={styles.view}>
 
 
-                            <View>
-                                {
-                                    this.state.recette.length > 0
-                                        ? <ListeRecettes items={this.state.recette} display={this.displayDetail}/>
-                                        : <Text style={styles.content}>Aucune recette disponible... ! Désolé !</Text>
-                                }
-                            </View>
 
 
-                        </View>
-                    </View>
+                                            <TextInput
+                                                placeholder={"  Recherche..."}
+                                                style={{borderBottomColor: '#000000',
+                                                    borderWidth: 3, marginTop: -280*(this.state.recette.length>0 ? this
+                                                        .state.recette.length : 20), width: 250, marginLeft: 70}}
+                                                onSubmitEditing={(event)=>this.search(event.nativeEvent.text)}
+                                            />
+
+                                            <View style={styles.view}>
+
+
+
+                                                    {
+                                                        this.state.recette.length > 0
+                                                            ? <ListeRecettes items={this.state.recette} display={this.displayDetail}/>
+                                                            : <Text style={styles.content}>Aucune recette disponible...
+                                                                ! Désolé !</Text>
+                                                    }
+
+
+
+                                            </View>
+
+
+
                 </ScrollView>
             </View>
+
         );
     }
 
@@ -142,13 +160,13 @@ const
         },
         recherche: {
             borderBottomColor: '#000000',
-            borderWidth: 3, marginTop: 50, width: 250, marginLeft: 50
+            borderWidth: 3, marginTop: -240*25, width: 250, marginLeft: 70
         },
         view: {
-            left: 80, bottom: 270, right: 20
+            left: 80, marginTop: 0, right: 20
         },
         content: {
-            fontWeight: 'bold', fontSize:20, color: '#e22565'
+            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 240
         }
 
     });

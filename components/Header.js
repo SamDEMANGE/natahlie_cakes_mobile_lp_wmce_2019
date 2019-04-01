@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
-import {Image, Platform, ScrollView, StyleSheet, View} from "react-native";
+import {Image, Platform, ScrollView, StyleSheet, View, Text} from "react-native";
+import {Toolbar, Card} from 'react-native-material-ui';
+
+
+
 
 export default class Header extends Component {
 
@@ -8,23 +12,23 @@ export default class Header extends Component {
         return (
 
 
-                    <View style={styles.header}>
-                        <Image
+                    <Image
 
-                            source={require('../assets/images/logo_cakes.png')}
-                            style={styles.logo}
-                        />
+                        source={require('../assets/images/logo_cakes.png')}
+                        style={styles.logo}
+                    />
 
-                    </View>
+
 
     )
 }
+
 
                     }
 
 const
     styles = StyleSheet.create({
       logo: {
-          width: 350, backgroundColor: '#fbf2c1'
+          width: 500, height: 200 ,backgroundColor: '#fbf2c1'
       }
     });

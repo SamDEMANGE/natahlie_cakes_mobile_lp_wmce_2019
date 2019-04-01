@@ -21,12 +21,12 @@ export default class DetailsRecette extends Component {
         return (
 
 
-                <View>
+                <View style={{width: 300}}>
                 <Text style={styles.title}>Ingrédients :</Text>
                     {
                         this.props.ingredients.map((val,i)=>{
                             return(
-                                <Text style={styles.content}>{i+1}.  {(val.qte*this.props.nb_parts)/this.props.nb_parts_init}  {val.mesure} ---- {val.nom}</Text>
+                                <Text style={styles.content}>{i+1}.  {val.nom} - {(val.qte*this.props.nb_parts)/this.props.nb_parts_init}  {val.mesure}</Text>
                             )
                         })
                     }

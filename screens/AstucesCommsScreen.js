@@ -8,6 +8,7 @@ import DetailsAstucesComms from "../components/DetailsAstucesComms";
 import SidebarRecette from "../components/SidebarRecette";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import {Button} from "react-native-material-ui";
 
 
 
@@ -39,12 +40,12 @@ export default class AstucesCommsScreen extends React.Component {
     componentDidMount() {
 
         let zero='';
-        if(this.props.navigation.state.params.id < 10){
+      /*  if(this.props.navigation.state.params.id < 10){
             zero = '0';
         }
         else{
             zero='';
-        }
+        }*/
         let detailrecette= bdd.ref('/Recettes/recette_'+zero+this.props.navigation.state.params.id);
 
 
@@ -72,60 +73,56 @@ export default class AstucesCommsScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-             <Header/>
 
-                    <View style={styles.container}>
 
-                        <TouchableOpacity
-                            onPress={()=>this.props.navigation.navigate('Ingredients', {id: this.props.navigation.state.params.id})}>
-                            <Text
-
-                                style={styles.onglets}
-                            >Ingrédients et matériels</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}>
-                            <Text
-
-                                style={styles.onglets}
-                            >Préparation</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={()=>this.props.navigation.navigate('Astuces', {id: this.props.navigation.state.params.id})}>
-                            <Text
-
-                                style={
-                                  styles.onglets
-                                }
-                            >Astuces et commentaires</Text>
-                        </TouchableOpacity>
+                        <Header/>
+                        <Sidebar/>
 
 
 
-                  <Sidebar/>
                         <View style={styles.view}>
+                            <View style={styles.onglets}>
+                                <Button text={"Ingrédients et matériels"} upperCase={false}
+                                        onPress={()=>this.props.navigation.navigate('Ingredients', {id: this.props.navigation.state.params.id})}
+
+                                />
+                            </View>
+                            <View style={styles.onglets}>
+                                <Button text={"Préparation"} upperCase={false}
+                                        onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}/>
+                            </View>
+                            <View style={styles.onglets}>
+                                <Button text={"Astuces et commentaires"} upperCase={false}
+                                        onPress={()=>this.props.navigation.navigate('Astuces', {id: this.props.navigation.state.params.id})}/>
+                            </View>
+                        </View>
+
+
+
+
+
+
 
 
                             <SidebarRecette items={this.state.recette}/>
 
 
-                        </View>
 
-                        <View style={styles.view}>
+                    <View style={{left: 55, top: -150}}>
 
 
-                            <View>
+
+
 
                                 <DetailsAstucesComms astuces={this.state.astuces} commentaires={this.state.commentaires}/>
 
-                            </View>
+
 
 
 
                         </View>
 
-                    </View>
+
                 </ScrollView>
             </View>
         );
@@ -145,11 +142,11 @@ const
             paddingTop: 30,
         },
         onglets: {
-            borderColor: '#e22565', borderBottomColor: '#ffffff', padding: 15, textAlign: 'center',
-            borderWidth: 3, marginTop: 10, width: 250, marginLeft: 10
+            borderColor: '#e22565', borderBottomColor: '#ffffff', paddingTop: 10, textAlign: 'center',
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
         },
         view: {
-            left: 80, bottom: 270, right: 20
+            flexDirection: 'row'
         }
 
     });

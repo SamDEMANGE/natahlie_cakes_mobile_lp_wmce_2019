@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {  View, Text, StyleSheet, Image, Button, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
+import {Card} from 'react-native-material-ui';
 
 
 
@@ -41,11 +42,11 @@ export default class ListeRecettes extends Component {
             <View>
                 {this.props.items.map((item, index) => {
                     return (
-                        <View key={index} style={styles.view}
+                        <View key={item.key} style={styles.view}
                         >
                             <TouchableOpacity
 
-                              onPress={()=>this.props.display(index+1)}
+                              onPress={()=>this.props.display(item.id)}
                                 >
                             <Image
                                 source={{uri: item.image}}

@@ -1,5 +1,5 @@
 import React from "react";
-import {Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Button} from "react-native";
+import {Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {bdd} from "../database";
 import DetailsRecette from "../components/DetailsRecette";
 import ListeRecettes from "../components/ListeRecettes";
@@ -7,6 +7,7 @@ import OngletsRecettes from "../components/OngletsRecettes";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import SidebarRecette from "../components/SidebarRecette";
+import {Toolbar, Button} from 'react-native-material-ui';
 
 
 
@@ -43,12 +44,12 @@ export default class IngrMatScreen extends React.Component {
 
     componentDidMount() {
         let zero='';
-        if(this.props.navigation.state.params.id < 10){
+        /*  if(this.props.navigation.state.params.id < 10){
             zero = '0';
         }
         else{
             zero='';
-        }
+        }*/
         let detailrecette= bdd.ref('/Recettes/recette_'+zero+this.props.navigation.state.params.id);
 
 
@@ -102,42 +103,36 @@ export default class IngrMatScreen extends React.Component {
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
                   <Header/>
-
-
-                    <View style={styles.container}>
-
-                        <TouchableOpacity
-                            onPress={()=>this.props.navigation.navigate('Ingredients', {id: this.props.navigation.state.params.id})}>
-                            <Text
-
-                                style={styles.onglets}
-                            >Ingrédients et matériels</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}>
-                            <Text
-
-                                style={styles.onglets}
-                            >Préparation</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={()=>this.props.navigation.navigate('Astuces', {id: this.props.navigation.state.params.id})}>
-                            <Text
-
-                                style={styles.onglets}
-
-
-                            >Astuces et commentaires</Text>
-                        </TouchableOpacity>
-
-
-
-
-
-
                     <Sidebar/>
+
+
+
                         <View style={styles.view}>
+                        <View style={styles.onglets}>
+                            <Button text={"Ingrédients et matériels"} upperCase={false}
+                                    onPress={()=>this.props.navigation.navigate('Ingredients', {id: this.props.navigation.state.params.id})}
+
+                            />
+                        </View>
+                        <View style={styles.onglets}>
+                            <Button text={"Préparation"} upperCase={false}
+                                    onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}/>
+                        </View>
+                        <View style={styles.onglets}>
+                            <Button text={"Astuces et commentaires"} upperCase={false}
+                                    onPress={()=>this.props.navigation.navigate('Astuces', {id: this.props.navigation.state.params.id})}/>
+                        </View>
+                    </View>
+
+
+
+
+
+
+
+
+
+                        <View style={{left: 55, right: 20, top: -200}}>
 
 
 
@@ -145,54 +140,62 @@ export default class IngrMatScreen extends React.Component {
                                 source={{uri: this.state.recette.image}}
                                 style={styles.image}
                             />
+
+                            <View style={{flexDirection: 'row'}}>
                             <Text style={styles.content}>{this.state.recette.nom}</Text>
                             <Image
 
                                 source={require('../assets/images/favorite.png')}
                                 style={styles.favorite}
                             />
-
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
                             <Image
 
                                 source={require('../assets/images/gateau_parts.png')}
                                 style={styles.sidebar}
                             />
-                            <Button
-                                title={"-"}
+
+                                <View style={styles.button}>
+                                    <Button raised accent={'#d3d3d3'}
+                                text={"-"}
                                 onPress={this.diminueParts}
-                                style={styles.button}
+
+
                                 />
-                            <Text>{this.state.nb_parts} personnes</Text>
-                            <Button
-                                title={"+"}
+                                 </View>
+                                <Text style={{marginLeft: 10, marginRight: 10}}>{this.state.nb_parts}</Text>
+                                <View style={styles.button}>
+                                    <Button raised accent={'#d3d3d3'}
+                                text={"+"}
                                 onPress={this.augmenteParts}
-                                style={styles.button}
-                            />
+
+                                    />
+                                </View>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
                             <Image
 
                                 source={require('../assets/images/356299-200.png')}
                                 style={styles.sidebar}
                             />
                             <Text>{this.state.recette.tps_prep} minutes</Text>
-
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
                             <Image
 
                                 source={require('../assets/images/four.png')}
                                 style={styles.sidebar}
                             />
                             <Text>{this.state.recette.tps_cuisson} minutes</Text>
+                            </View>
 
 
 
 
 
 
-                        </View>
 
-                        <View style={styles.view}>
-
-
-                            <View>
 
                                     <DetailsRecette
                                         ingredients={this.state.ingredients}
@@ -201,12 +204,12 @@ export default class IngrMatScreen extends React.Component {
                                         nb_parts_init={this.state.recette.nb_pers}
                                     />
 
-                            </View>
+
 
 
                         </View>
 
-                    </View>
+
                 </ScrollView>
             </View>
         );
@@ -227,20 +230,20 @@ const
             paddingTop: 30,
         },
         onglets: {
-            borderColor: '#e22565', borderBottomColor: '#ffffff', padding: 15, textAlign: 'center',
-            borderWidth: 3, marginTop: 10, width: 250, marginLeft: 10
+            borderColor: '#e22565', borderBottomColor: '#ffffff', paddingTop: 10, textAlign: 'center',
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
         },
         view: {
-            left: 80, bottom: 270, right: 20
+           flexDirection: 'row'
         },
         image: {
-            width: 225, height: 200, marginLeft:0
+            width: 250, height: 225, marginLeft:0
         },
         favorite: {
-            width: 30, marginTop: 25, marginLeft: 10
+            width: 30, marginLeft: 10
         },
         sidebar: {
-            width: 150, marginTop: 10, marginLeft: 10
+            width: 50, height: 50, marginLeft: 10
         },
         button:{
             width: 40

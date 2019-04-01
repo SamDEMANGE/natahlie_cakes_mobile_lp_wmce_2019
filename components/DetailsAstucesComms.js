@@ -21,7 +21,7 @@ export default class DetailsAstucesComms extends Component {
     render() {
         return (
 
-            <View>
+            <View style={{width: 300}}>
                 <Text style={styles.title}>Astuces :</Text>
                 {
                     this.props.astuces.map((val,i)=>{
