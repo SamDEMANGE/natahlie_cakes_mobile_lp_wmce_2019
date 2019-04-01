@@ -57,8 +57,6 @@ export default class FavorisScreen extends React.Component {
 
     displayDetail(id){
 
-        console.log(this.props.navigation);
-        console.log('index'+ id);
         this.props.navigation.navigate("Ingredients", {id: id});
 
         this.setState({recette: this.state.recette});
@@ -95,7 +93,6 @@ export default class FavorisScreen extends React.Component {
         let tableau_recettes = [];
 
 
-
         for(let i=0; i < this.state.favoris_tab.length; i++){
 
             for(let k=0; k < this.state.recettes_tab.length; k++){
@@ -112,7 +109,8 @@ export default class FavorisScreen extends React.Component {
 
         this.setState({recettes_tab : tableau_recettes});
 
-        console.log(this.state.recettes_tab);
+        //console.log(this.state.recettes_tab[0]);
+
     }
 
 

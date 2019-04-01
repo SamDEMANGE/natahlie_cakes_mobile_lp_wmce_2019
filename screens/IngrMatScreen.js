@@ -9,6 +9,8 @@ import Header from "../components/Header";
 import SidebarRecette from "../components/SidebarRecette";
 import {Toolbar, Button} from 'react-native-material-ui';
 
+import { Icon } from 'react-native-material-ui';
+
 
 
 
@@ -22,6 +24,9 @@ export default class IngrMatScreen extends React.Component {
 
         this.diminueParts=this.diminueParts.bind(this);
         this.augmenteParts=this.augmenteParts.bind(this);
+
+        this.favoriteFonction=this.favoriteFonction.bind(this);
+        this.AddFav=this.AddFav.bind(this);
 
     }
 
@@ -39,7 +44,9 @@ export default class IngrMatScreen extends React.Component {
         nb_parts: 0,
         ingredients: [],
         materiel:[],
-        recette:[]
+        recette:[],
+        favicon_name: 'favorite-border',
+        etat_fav: false
     };
 
     componentDidMount() {
@@ -93,6 +100,30 @@ export default class IngrMatScreen extends React.Component {
 
     }
 
+    favoriteFonction(){
+
+        if(this.state.etat_fav===false) {
+            this.setState({etat_fav: true});
+            this.setState({favicon_name: 'favorite'});
+            this.AddFav();
+        }
+        else if(this.state.etat_fav===true){
+            this.setState({etat_fav: false});
+            this.setState({favicon_name: 'favorite-border'});
+        }
+
+
+    }
+
+    AddFav() {
+        bdd.ref('Favoris/fav_').set({
+            id: 56,
+            recette: 56,
+            users : 1
+        });
+    }
+
+
     render() {
         return (
             <View style={styles.container}>
@@ -136,14 +167,30 @@ export default class IngrMatScreen extends React.Component {
                                 style={styles.image}
                             />
 
-                            <View style={{flexDirection: 'row'}}>
-                            <Text style={styles.content}>{this.state.recette.nom}</Text>
-                            <Image
 
-                                source={require('../assets/images/favorite.png')}
-                                style={styles.favorite}
-                            />
+                            <View style={styles.favorite}>
+
+                                <Text style={styles.content}>
+
+                                    {this.state.recette.nom}
+
+                                </Text>
+
+                                <TouchableOpacity  onPress={ () => this.favoriteFonction() }>
+
+                                    <Icon name={this.state.favicon_name} />
+
+
+                                </TouchableOpacity>
+
                             </View>
+
+
+
+
+
+
+
                             <View style={{flexDirection: 'row'}}>
                             <Image
 
@@ -235,7 +282,7 @@ const
             width: 250, height: 225, marginLeft:0
         },
         favorite: {
-            width: 30, marginLeft: 10
+            width: 30, marginLeft: 10, flexDirection: 'row',
         },
         sidebar: {
             width: 50, height: 50, marginLeft: 10
