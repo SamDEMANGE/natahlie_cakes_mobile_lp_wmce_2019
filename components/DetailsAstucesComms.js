@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  View, Text, StyleSheet, Image} from 'react-native';
 import PropTypes from 'prop-types';
-
+import {Card} from 'react-native-material-ui';
 
 
 
@@ -22,6 +22,7 @@ export default class DetailsAstucesComms extends Component {
         return (
 
             <View style={{width: 300}}>
+                <Card>
                 <Text style={styles.title}>Astuces :</Text>
                 {
                     this.props.astuces.map((val,i)=>{
@@ -30,8 +31,8 @@ export default class DetailsAstucesComms extends Component {
                         )
                     })
                 }
-
-
+                </Card>
+                <Card>
                 <Text style={styles.title}> Commentaires : </Text>
                 {
                     this.props.commentaires.map((val,i)=>{
@@ -40,7 +41,7 @@ export default class DetailsAstucesComms extends Component {
                         )
                     })
                 }
-
+                </Card>
             </View>
 
 

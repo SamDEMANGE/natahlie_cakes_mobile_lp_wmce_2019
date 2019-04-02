@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  View, Text, StyleSheet, Image} from 'react-native';
 import PropTypes from 'prop-types';
-
+import {Card } from 'react-native-material-ui';
 
 
 
@@ -16,7 +16,8 @@ export default class DetailsPreparation extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{width: 300}}>
+                <Card>
                 {this.props.etapes.map((item, index) => {
                     return (
 
@@ -26,6 +27,7 @@ export default class DetailsPreparation extends Component {
                         </View>
                     )
                 })}
+                </Card>
             </View>
         );
     }

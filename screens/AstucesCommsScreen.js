@@ -76,13 +76,13 @@ export default class AstucesCommsScreen extends React.Component {
 
 
                         <View style={styles.view}>
-                            <View style={styles.onglets}>
+                            <View style={styles.onglet}>
                                 <Button text={"Ingrédients et matériels"} upperCase={false}
                                         onPress={()=>this.props.navigation.navigate('Ingredients', {id: this.props.navigation.state.params.id})}
 
                                 />
                             </View>
-                            <View style={styles.onglets}>
+                            <View style={styles.onglet}>
                                 <Button text={"Préparation"} upperCase={false}
                                         onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}/>
                             </View>
@@ -138,6 +138,10 @@ const
         },
         onglets: {
             borderColor: '#e22565', borderBottomColor: '#ffffff', paddingTop: 10, textAlign: 'center',
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
+        },
+        onglet: {
+            paddingTop: 10, textAlign: 'center',  borderColor: '#ffffff',
             borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
         },
         view: {

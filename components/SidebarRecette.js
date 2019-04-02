@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {View, Text, StyleSheet, Image, Button, TouchableOpacity, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
-
+import {Card} from 'react-native-material-ui';
 
 
 
@@ -37,7 +37,8 @@ export default class SidebarRecette extends Component {
 
 
             <View style={{left: 55, right: 20, top: -200}}>
-
+        <View style={{width:300}}>
+            <Card>
                             <Image
                                 source={{uri: this.props.items.image}}
                                 style={styles.image}
@@ -75,9 +76,10 @@ export default class SidebarRecette extends Component {
                             />
                             <Text>{this.props.items.tps_cuisson} minutes</Text>
                 </View>
+            </Card>
                         </View>
 
-
+            </View>
 
         );
     }

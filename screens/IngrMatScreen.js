@@ -9,7 +9,7 @@ import Header from "../components/Header";
 import SidebarRecette from "../components/SidebarRecette";
 import {Toolbar, Button} from 'react-native-material-ui';
 
-import { Icon } from 'react-native-material-ui';
+import { Icon , Card} from 'react-native-material-ui';
 
 
 
@@ -140,11 +140,11 @@ export default class IngrMatScreen extends React.Component {
 
                             />
                         </View>
-                        <View style={styles.onglets}>
+                        <View style={styles.onglet}>
                             <Button text={"Préparation"} upperCase={false}
                                     onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}/>
                         </View>
-                        <View style={styles.onglets}>
+                        <View style={styles.onglet}>
                             <Button text={"Astuces et commentaires"} upperCase={false}
                                     onPress={()=>this.props.navigation.navigate('Astuces', {id: this.props.navigation.state.params.id})}/>
                         </View>
@@ -159,8 +159,8 @@ export default class IngrMatScreen extends React.Component {
 
 
                         <View style={{left: 55, right: 20, top: -200}}>
-
-
+<View style={{width: 300}}>
+                    <Card >
 
                             <Image
                                 source={{uri: this.state.recette.image}}
@@ -235,8 +235,8 @@ export default class IngrMatScreen extends React.Component {
 
 
 
-
-
+</Card>
+</View>
 
 
                                     <DetailsRecette
@@ -275,6 +275,10 @@ const
             borderColor: '#e22565', borderBottomColor: '#ffffff', paddingTop: 10, textAlign: 'center',
             borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
         },
+        onglet: {
+            paddingTop: 10, textAlign: 'center', borderColor: '#ffffff',
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
+        },
         view: {
            flexDirection: 'row'
         },
@@ -282,7 +286,7 @@ const
             width: 250, height: 225, marginLeft:0
         },
         favorite: {
-            width: 30, marginLeft: 10, flexDirection: 'row',
+            width: 320, marginLeft: 10, flexDirection: 'row',
         },
         sidebar: {
             width: 50, height: 50, marginLeft: 10

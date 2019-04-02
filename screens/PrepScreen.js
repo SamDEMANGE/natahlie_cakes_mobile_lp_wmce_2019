@@ -7,7 +7,7 @@ import DetailsPreparation from "../components/DetailsPreparation";
 import SidebarRecette from "../components/SidebarRecette";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import {Button} from "react-native-material-ui";
+import {Button, Card} from "react-native-material-ui";
 
 
 
@@ -40,7 +40,7 @@ export default class PrepScreen extends React.Component {
     componentDidMount() {
 
         let zero='';
-      
+
         let detailrecette= bdd.ref('/Recettes/recette_'+zero+this.props.navigation.state.params.id);
 
         detailrecette.once('value', (snapshot) => {
@@ -72,7 +72,7 @@ export default class PrepScreen extends React.Component {
 
 
                     <View style={styles.view}>
-                        <View style={styles.onglets}>
+                        <View style={styles.onglet}>
                             <Button text={"Ingrédients et matériels"} upperCase={false}
                                     onPress={()=>this.props.navigation.navigate('Ingredients', {id: this.props.navigation.state.params.id})}
 
@@ -82,7 +82,7 @@ export default class PrepScreen extends React.Component {
                             <Button text={"Préparation"} upperCase={false}
                                     onPress={()=>this.props.navigation.navigate('Preparation', {id: this.props.navigation.state.params.id})}/>
                         </View>
-                        <View style={styles.onglets}>
+                        <View style={styles.onglet}>
                             <Button text={"Astuces et commentaires"} upperCase={false}
                                     onPress={()=>this.props.navigation.navigate('Astuces', {id: this.props.navigation.state.params.id})}/>
                         </View>
@@ -109,9 +109,11 @@ export default class PrepScreen extends React.Component {
 
 
                     <View style={{left: 55, top: -150}}>
-
+                    <View style={{width: 300}}>
+                        <Card>
                                 <Text>Tags : {this.state.recette.tags}</Text>
-
+                        </Card>
+                    </View>
                             </View>
 
 
@@ -141,11 +143,15 @@ const
             borderColor: '#e22565', borderBottomColor: '#ffffff', paddingTop: 10, textAlign: 'center',
             borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
         },
+        onglet: {
+            paddingTop: 10, textAlign: 'center',  borderBottomColor: '#e22565', borderColor: '#ffffff',
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
+        },
         view: {
             flexDirection: 'row'
         },
         tags:{
-            marginTop: 30
+            marginTop: 50
         }
 
     });
