@@ -42,7 +42,7 @@ export default class ListeRecettes extends Component {
             <View>
                 {this.props.items.map((item, index) => {
                     return (
-                        <View key={item.key} style={styles.view}
+                        <View key={item.id} style={styles.view}
                         >
                             <TouchableOpacity
 

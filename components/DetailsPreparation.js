@@ -9,7 +9,8 @@ import {Card } from 'react-native-material-ui';
 export default class DetailsPreparation extends Component {
 
     static propTypes = {
-        etapes: PropTypes.array.isRequired
+        etapes: PropTypes.array.isRequired,
+        tags: PropTypes.string.isRequired
     };
 
 
@@ -28,7 +29,18 @@ export default class DetailsPreparation extends Component {
                     )
                 })}
                 </Card>
+
+                <View>
+                    <View style={{width: 300}}>
+                        <Card>
+                            <Text>Tags : {this.props.tags}</Text>
+                        </Card>
+                    </View>
+                </View>
+
             </View>
+
+
         );
     }
 }

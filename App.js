@@ -3,11 +3,6 @@ import {Platform, StatusBar, StyleSheet, View, Text, Image, TextInput, ScrollVie
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/Navigator';
 
-import ListeRecettes from "./components/ListeRecettes";
-import HomeScreen from "./screens/HomeScreen";
-import IngrMatScreen from "./screens/IngrMatScreen";
-import PrepScreen from "./screens/PrepScreen";
-import AstucesCommsScreen from "./screens/AstucesCommsScreen";
 
 import {ReactDom} from 'react-dom';
 
