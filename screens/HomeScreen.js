@@ -98,7 +98,7 @@ export default class HomeScreen extends React.Component {
 
         if(this.state.recherche!==''){
            // dernieres_recettes=bdd.ref('/Recettes').child('child_added').child('nom').orderByChild('nom').startAt(this.state.recherche).limitToFirst((this.state.recette.length + 20));
-           let search=  this.state.recette.filter(({nom})=> nom.includes(this.state.recherche));
+            let search=  this.state.recette.filter(({nom})=> nom.includes(this.state.recherche) || nom.includes(this.state.recherche.toLowerCase()));
            this.setState({recette: search});
         }
         else {
@@ -136,35 +136,11 @@ export default class HomeScreen extends React.Component {
         }
         else{
             this.setState({recherche: value});
-/*
-            recettes= bdd.ref('/Recettes').child('child_added').child('nom').orderByChild('nom').startAt(value).limitToFirst(20);
 
-            console.log(recettes);
-            recettes.once('value', (snapshot) => {
-                //   let data=snapshot.toJSON();
-
-                //  this.setState({recettes:(data)});
-
-
-                let data = snapshot.val();
-                if(!data){
-                    data=[];
-                }
-
-                let recette = Object.values(data);
-                this.setState({recette: recette});
-
-                  console.log(this.state.recette);
-
-
-
-            });
-            */
-
-  let search=  this.state.tmp_recette.filter(({nom})=> nom.includes(value));
-    console.log('search');
-    console.log(search);
-    this.setState({recette: search});
+            let search=  this.state.tmp_recette.filter(({nom})=> nom.includes(value) || nom.includes(value.toLowerCase()));
+            console.log('search');
+            console.log(search);
+            this.setState({recette: search});
 
         }
 
@@ -182,7 +158,7 @@ export default class HomeScreen extends React.Component {
             this.props.navigation.navigate("Home");
         }
         else if(id === 2){
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Tags");
         }
         else if(id === 3){
             this.props.navigation.navigate("Favoris");
@@ -207,52 +183,35 @@ export default class HomeScreen extends React.Component {
 
         return (
             <View style={styles.container}>
-                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}
-                onMomentumScrollEnd={this.afficheLastRecettes}
-                >
 
-                <Header/>
-                    <Sidebar display={this.displayNav} nb_recettes={this.state.recette.length>0 ? this.state.recette.length : 20}/>
+                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} onMomentumScrollEnd={this.afficheLastRecettes}>
+
+                    <Header/>
 
 
+                    <TextInput placeholder={"  Recherche..."} style={styles.recherche} onChange={(event)=>this.search(event.nativeEvent.text)}/>
+
+                    <View style={styles.view}>
 
 
+                        {
+                            this.state.recette.length > 0
+                                ? <ListeRecettes items={this.state.recette} display={this.displayDetail}/>
+                                : <Text style={styles.content}>Aucune recette disponible... ! Désolé !</Text>
+                        }
 
 
-                                            <TextInput
-                                                placeholder={"  Recherche..."}
-                                                style={{borderBottomColor: '#000000',
-                                                    borderWidth: 3, marginTop: -280*(this.state.recette.length>0 ? this
-                                                        .state.recette.length : 20), width: 250, marginLeft: 70}}
-                                                onSubmitEditing={(event)=>this.search(event.nativeEvent.text)}
-                                            />
+                        {
+                            this.state.isLoadingComplete === false || this.state.recette.length < this.state.nb_total
+                                ? <Icon name={'autorenew'} style={styles.icon}/> : <Text/>
+                        }
 
-                                            <View style={styles.view}>
-
-
-
-                                                    {
-                                                        this.state.recette.length > 0
-                                                            ? <ListeRecettes items={this.state.recette} display={this.displayDetail}/>
-                                                            : <Text style={styles.content}>Aucune recette disponible...
-                                                                ! Désolé !</Text>
-                                                    }
-
-
-                                                {
-                                                   this.state.isLoadingComplete === false
-                                                     || this.state.recette.length < this.state.nb_total
-                                                        ? <Icon name={'autorenew'} style={styles.icon}/>
-                                                       : <Text/>
-                                                }
-
-
-
-                                            </View>
-
+                     </View>
 
 
                 </ScrollView>
+
+                <Sidebar display={this.displayNav}/>
             </View>
 
         );
@@ -266,27 +225,33 @@ export default class HomeScreen extends React.Component {
 const
     styles = StyleSheet.create({
         container: {
-            flex: 1,
+
+            marginTop:-15,
+            left:0,
+            top:0,
             backgroundColor: '#fff',
+
         },
 
         contentContainer: {
-            paddingTop: 30,
-        },
-        recherche: {
-            borderBottomColor: '#000000',
-            borderWidth: 3, marginTop: -240*25, width: 250, marginLeft: 70
+            paddingTop: 30, justifyContent: 'center',
         },
         view: {
-            left: 80, marginTop: 0, right: 20
+            width: '100%',
+            marginTop: 0,
         },
         content: {
-            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25, textAlign: 'center'
+            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25,
         },
         icon: {
             width: 200, height: 200, marginLeft: 100
+        },
+        recherche: {
+            borderBottomColor: '#000000', borderWidth: 3,
+            marginTop: 20,
+            width: '70%',
+            marginRight: '15%', marginLeft: '15%'
         }
-
     });
 
 

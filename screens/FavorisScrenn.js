@@ -145,8 +145,10 @@ export default class FavorisScrenn extends React.Component {
 
         return (
             <View style={styles.container}>
+
+                <Header style={styles.header}/>
+
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-                    <Header style={styles.header}/>
 
 
                     <View style={styles.container}>

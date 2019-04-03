@@ -1,15 +1,8 @@
 import React, {Component} from 'react';
 import {Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import PropTypes from "prop-types";
 
 export default class Sidebar extends Component {
 
-
-    static propTypes = {
-
-        nb_recettes: PropTypes.number
-
-    };
 
     constructor(props){
         super(props);
@@ -21,8 +14,7 @@ export default class Sidebar extends Component {
         return (
 
 
-            <View style={{backgroundColor: "#e22565", width: 50, height: 280*(this.props.nb_recettes), marginTop: 0, float:'left'}}>
-
+            <View style={styles.view}>
 
 
                 <TouchableOpacity
@@ -46,7 +38,7 @@ export default class Sidebar extends Component {
                 <TouchableOpacity
 
                     onPress={()=>this.props.display(4)}>
-                    <Image  source={require('../assets/images/shopping.png')} style={styles.sidebar}/>
+                    <Image  source={require('../assets/images/shopping.png')} style={styles.sidebar_last}/>
 
                 </TouchableOpacity>
 
@@ -60,9 +52,14 @@ export default class Sidebar extends Component {
 const
     styles = StyleSheet.create({
         view: {
-            backgroundColor: "#e22565", width: 50, height: 240, marginTop: 0
+            backgroundColor: "#e22565", width: 50, marginTop: 0, position: 'absolute', left: 0, top:126,
+            borderTopRightRadius: 10, borderBottomRightRadius: 10,
+
         },
         sidebar: {
-            width: 30, marginTop: 25, marginLeft: 10
+            width: 30, marginTop: 20, marginLeft: 10
+        },
+        sidebar_last: {
+            width: 30, marginTop: 20, marginBottom: 20, marginLeft: 10
         }
     });

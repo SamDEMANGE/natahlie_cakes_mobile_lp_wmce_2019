@@ -4,8 +4,6 @@ import {Toolbar, Card} from 'react-native-material-ui';
 import {Header as EnTete,  Image as Img} from 'react-native-elements';
 
 
-
-
 export default class Header extends Component {
 
     render() {
@@ -14,20 +12,19 @@ export default class Header extends Component {
 
             <EnTete containerStyle={styles.header}
                     backgroundImage={require('../assets/images/logo_cakes.png')}
+                    backgroundImageStyle={{
+                        width: '105%'
+                    }}
             />
-
-
 
         )
     }
-
-
 }
 
 const
     styles = StyleSheet.create({
 
         header: {
-            backgroundColor: '#fbf2c1', height: 112, width: 350
+            backgroundColor: '#fbf2c1',  width: '100%', height:112
         }
     });
