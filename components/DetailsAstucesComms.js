@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import {  View, Text, StyleSheet, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import {Card} from 'react-native-material-ui';
-
+import {bdd} from '../database';
 
 
 
 export default class DetailsAstucesComms extends Component {
+
+constructor(props){
+    super(props);
+this.users=[];
+}
+
+
 
 
 
@@ -35,12 +42,40 @@ export default class DetailsAstucesComms extends Component {
                 <Card>
                 <Text style={styles.title}> Commentaires : </Text>
                 {
-                    this.props.commentaires.map((val,i)=>{
-                        return(
-                            <Text style={styles.content}>{val.id}. User {val.user} :    {val.contenue}</Text>
-                        )
-                    })
-                }
+                    this.props.commentaires.map((val,i)=> {
+                        bdd.ref('Utilisateurs/user_' + val.user).once('value', (snapshot) => {
+                            let data = snapshot.val();
+                            this.users.push(data);
+                           // console.log(data);
+
+                        });
+
+                        console.log(this.users);
+
+                        //    console.log(this.props.commentaires);
+
+
+
+
+
+
+                        return (
+                                                <Text
+                                                    style={styles.content}>{val.id}.
+
+
+
+
+                                                 : {val.contenue}</Text>
+                                            )
+
+
+
+                            })
+
+
+                    }
+
                 </Card>
             </View>
 

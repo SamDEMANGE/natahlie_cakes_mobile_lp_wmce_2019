@@ -93,22 +93,27 @@ export default class HomeScreen extends React.Component {
 
     afficheLastRecettes(){
 
-        let dernieres_recettes=bdd.ref('/Recettes/').limitToLast((this.state.recette.length + 20));
-
-        if(this.state.recherche!==''){
-            dernieres_recettes=bdd.ref('/Recettes/').child('child_added').child('/nom').orderByChild('nom').startAt(this.state.recherche).limitToLast((this.state.recette.length + 20));
-
-        }
-
         this.setState({isLoadingComplete: false});
 
-        dernieres_recettes.once('value', (snapshot)=>{
-            let data=snapshot.val();
-            let drecette=Object.values(data);
-            this.setState({recette: drecette });
-            this.setState({recette: this.state.recette.reverse()});
-            this.setState({tmp_recette: this.state.recette});
-        });
+        if(this.state.recherche!==''){
+           // dernieres_recettes=bdd.ref('/Recettes').child('child_added').child('nom').orderByChild('nom').startAt(this.state.recherche).limitToFirst((this.state.recette.length + 20));
+           let search=  this.state.recette.filter(({nom})=> nom.includes(this.state.recherche));
+           this.setState({recette: search});
+        }
+        else {
+            let dernieres_recettes=bdd.ref('/Recettes/').limitToLast((this.state.recette.length + 20));
+            dernieres_recettes.once('value', (snapshot)=>{
+                let data=snapshot.val();
+                let drecette=Object.values(data);
+                this.setState({recette: drecette });
+                this.setState({recette: this.state.recette.reverse()});
+                this.setState({tmp_recette: this.state.recette});
+            });
+        }
+
+      // this.setState({isLoadingComplete: false});
+
+
 
         this.setState({isLoadingComplete: true});
 
@@ -118,7 +123,11 @@ export default class HomeScreen extends React.Component {
 
     search(value){
 
+
+
+
         this.setState({isLoadingComplete:false});
+
         if(!value || value==='') {
 
             this.setState({recherche: ''});
@@ -126,32 +135,39 @@ export default class HomeScreen extends React.Component {
         }
         else{
             this.setState({recherche: value});
+/*
+            recettes= bdd.ref('/Recettes').child('child_added').child('nom').orderByChild('nom').startAt(value).limitToFirst(20);
 
-            recettes= bdd.ref('/Recettes/').child('child_added').child('/nom').startAt(value).limitToLast(20);
-
+            console.log(recettes);
             recettes.once('value', (snapshot) => {
                 //   let data=snapshot.toJSON();
 
                 //  this.setState({recettes:(data)});
 
+
                 let data = snapshot.val();
                 if(!data){
                     data=[];
                 }
+
                 let recette = Object.values(data);
                 this.setState({recette: recette});
 
-                //  console.log(this.state.recette);
+                  console.log(this.state.recette);
+
+
+
             });
+            */
+
+  let search=  this.state.tmp_recette.filter(({nom})=> nom.includes(value));
+    console.log('search');
+    console.log(search);
+    this.setState({recette: search});
 
         }
-        if(this.recette){
-            this.setState({nb_total: this.recette.length});
-        }
-        else {
 
-            this.setState({nb_total: 0});
-        }
+        this.setState({nb_total: this.state.recette.length});
 
         this.setState({isLoadingComplete: true});
 
@@ -209,7 +225,7 @@ export default class HomeScreen extends React.Component {
                                                    this.state.isLoadingComplete === false
                                                      || this.state.recette.length < this.state.nb_total
                                                         ? <Icon name={'autorenew'} style={styles.icon}/>
-                                                        : <Text style={styles.content}>FIN DES RECETTES DISPONIBLES</Text>
+                                                       : <Text/>
                                                 }
 
 
