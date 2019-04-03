@@ -10,9 +10,8 @@ export default class DetailsAstucesComms extends Component {
 
 constructor(props){
     super(props);
-this.users=[];
-}
 
+}
 
 
 
@@ -20,7 +19,8 @@ this.users=[];
 
     static propTypes = {
         astuces: PropTypes.array.isRequired,
-        commentaires: PropTypes.array.isRequired
+        commentaires: PropTypes.array.isRequired,
+        commentateurs: PropTypes.array
     };
 
 
@@ -43,20 +43,6 @@ this.users=[];
                 <Text style={styles.title}> Commentaires : </Text>
                 {
                     this.props.commentaires.map((val,i)=> {
-                        bdd.ref('Utilisateurs/user_' + val.user).once('value', (snapshot) => {
-                            let data = snapshot.val();
-                            this.users.push(data);
-                           // console.log(data);
-
-                        });
-
-                        console.log(this.users);
-
-                        //    console.log(this.props.commentaires);
-
-
-
-
 
 
                         return (
@@ -64,9 +50,13 @@ this.users=[];
                                                     style={styles.content}>{val.id}.
 
 
+                                                    {this.props.commentateurs.filter(({id})=> id === val.user).map(
+                                                        (v, ind)=>{
+                                                            return <Text>  {v.prenom} {v.nom} :   </Text>
+                                                        }
+                                                    )}
 
-
-                                                 : {val.contenue}</Text>
+                                                  {val.contenue}</Text>
                                             )
 
 

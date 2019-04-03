@@ -60,12 +60,24 @@ export default class MainRecette extends React.Component {
         etat_fav: false,
         idSup : 0,
         id_fav: 0,
+        utilisateurs: [],
+        tags: []
     };
 
 
     componentDidMount() {
 
         let zero='';
+
+        let utilisateur=bdd.ref('/Utilisateurs');
+
+
+        utilisateur.once('value', (snapshot)=>
+        {
+           let data=snapshot.val();
+           let users=Object.values(data);
+           this.setState({utilisateurs: users});
+        });
 
         let detailrecette= bdd.ref('/Recettes/recette_'+zero+this.props.navigation.state.params.id);
 
@@ -74,7 +86,7 @@ export default class MainRecette extends React.Component {
 
 
             let data = snapshot.val();
-
+            let tags=Object.values(data.tags);
             let ingredients=Object.values(data.ingredients);
             let materiels=Object.values(data.materiels);
             let preparation=Object.values(data.preparation);
@@ -82,7 +94,7 @@ export default class MainRecette extends React.Component {
             let commentaires=Object.values(data.publication.commentaires);
 
             this.setState({recette:data, ingredients: ingredients, materiel: materiels, preparation: preparation, astuces: astuces, commentaires: commentaires, nb_parts: data.nb_pers});
-
+            this.setState({tags: tags});
             this.getId();
 
         })
@@ -359,11 +371,12 @@ export default class MainRecette extends React.Component {
                                 : null}
 
                             {this.state.status_prep ?
-                                <DetailsPreparation etapes={this.state.preparation} tags={this.state.recette.tags}/>
+                                <DetailsPreparation etapes={this.state.preparation} tags={this.state.tags}/>
                                 : null}
 
                             {this.state.status_comas ?
-                                <DetailsAstucesComms astuces={this.state.astuces} commentaires={this.state.commentaires}/>
+                                <DetailsAstucesComms astuces={this.state.astuces} commentaires={this.state.commentaires}
+                                                     commentateurs={this.state.utilisateurs}/>
                                 : null}
 
 
