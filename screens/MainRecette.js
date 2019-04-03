@@ -22,6 +22,7 @@ export default class MainRecette extends React.Component {
 
         this.diminueParts=this.diminueParts.bind(this);
         this.augmenteParts=this.augmenteParts.bind(this);
+        this.displayNav=this.displayNav.bind(this);
 
         this.favoriteFonction=this.favoriteFonction.bind(this);
         this.addFav=this.addFav.bind(this);
@@ -192,7 +193,7 @@ export default class MainRecette extends React.Component {
 
         Alert.alert(
             'Confirmation de suppression',
-            'Voulez vous vraiment supprimer ce Favoris? ',
+            'Voulez vous vraiment supprimer ce FavorisScrenn? ',
             [
                 {text: 'Supprimer', onPress: () => this.deleteFav()},
 
@@ -244,6 +245,23 @@ export default class MainRecette extends React.Component {
 
     }
 
+    displayNav(id){
+
+        if(id === 1){
+            this.props.navigation.navigate("Home");
+        }
+        else if(id === 2){
+            this.props.navigation.navigate("Home");
+        }
+        else if(id === 3){
+            this.props.navigation.navigate("Favoris");
+        }
+        else if(id === 4){
+            this.props.navigation.navigate("Home");
+        }
+
+    }
+
 
     render() {
 
@@ -252,7 +270,7 @@ export default class MainRecette extends React.Component {
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
                   <Header/>
-                    <Sidebar/>
+                    <Sidebar display={this.displayNav}/>
 
                         <View style={styles.view}>
                             <View style={this.state.status_ingr ? styles.onglets : styles.onglet}>

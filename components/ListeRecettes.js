@@ -24,15 +24,6 @@ export default class ListeRecettes extends Component {
 
     }
 
-    displayDetail(id){
-
-     //   console.log(this.props.navigation);
-        console.log('index'+ id);
-        this.props.navigation.navigate("Ingredients", {'id': id});
-
-
-    }
-
 
 
     render() {
@@ -46,14 +37,12 @@ export default class ListeRecettes extends Component {
                         >
                             <TouchableOpacity
 
-                              onPress={()=>this.props.display(item.id)}
-                                >
-                            <Image
-                                source={{uri: item.image}}
-                                style={styles.image}
-                            />
-                            <Text style={styles.content}
-                            >{item.nom}</Text>
+                                onPress={()=>this.props.display(item.id)}>
+                                <Image source={{uri: item.image}} style={styles.image}/>
+                                <Text style={styles.content}>
+                                    {item.nom}
+                                </Text>
+
                             </TouchableOpacity>
                         </View>
                     )

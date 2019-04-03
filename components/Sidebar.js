@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Platform, ScrollView, StyleSheet, View} from "react-native";
+import {Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from "prop-types";
 
 export default class Sidebar extends Component {
@@ -13,8 +13,6 @@ export default class Sidebar extends Component {
 
     constructor(props){
         super(props);
-        //   this.displayDetail=this.displayDetail.bind(this);
-
     }
 
 
@@ -24,26 +22,34 @@ export default class Sidebar extends Component {
 
 
             <View style={{backgroundColor: "#e22565", width: 50, height: 280*(this.props.nb_recettes), marginTop: 0, float:'left'}}>
-                <Image
 
-                    source={require('../assets/images/add.png')}
-                    style={styles.sidebar}
-                />
-                <Image
 
-                    source={require('../assets/images/tags.png')}
-                    style={styles.sidebar}
-                />
-                <Image
 
-                    source={require('../assets/images/favorite.png')}
-                    style={styles.sidebar}
-                />
-                <Image
+                <TouchableOpacity
 
-                    source={require('../assets/images/shopping.png')}
-                    style={styles.sidebar}
-                />
+                    onPress={()=>this.props.display(1)}>
+                    <Image  source={require('../assets/images/add.png')} style={styles.sidebar}/>
+
+                </TouchableOpacity>
+                <TouchableOpacity
+
+                    onPress={()=>this.props.display(2)}>
+                    <Image  source={require('../assets/images/tags.png')} style={styles.sidebar}/>
+
+                </TouchableOpacity>
+                <TouchableOpacity
+
+                    onPress={()=>this.props.display(3)}>
+                    <Image  source={require('../assets/images/favorite.png')} style={styles.sidebar}/>
+
+                </TouchableOpacity>
+                <TouchableOpacity
+
+                    onPress={()=>this.props.display(4)}>
+                    <Image  source={require('../assets/images/shopping.png')} style={styles.sidebar}/>
+
+                </TouchableOpacity>
+
             </View>
 
         )

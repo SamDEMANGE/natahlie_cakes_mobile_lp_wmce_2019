@@ -6,14 +6,15 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 
-let favoris= bdd.ref('/Favoris').orderByChild('user').equalTo(1).limitToFirst(20);
+let favoris= bdd.ref('/Favoris').orderByChild('id');
 let recettes= bdd.ref('/Recettes');
 
-export default class FavorisScreen extends React.Component {
+export default class FavorisScrenn extends React.Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.displayDetail=this.displayDetail.bind(this);
+        this.displayNav=this.displayNav.bind(this);
         this.search=this.search.bind(this);
         this.trieFav=this.trieFav.bind(this);
 
@@ -23,9 +24,8 @@ export default class FavorisScreen extends React.Component {
 
     static navigationOptions = {
         //  header: null,
-        title : 'Mes Favoris'
+        title : 'Mes FavorisScrenn'
     };
-
 
     state = {
         isLoadingComplete: false,
@@ -63,6 +63,23 @@ export default class FavorisScreen extends React.Component {
 
     }
 
+    displayNav(id){
+
+        if(id === 1){
+            this.props.navigation.navigate("Home");
+        }
+        else if(id === 2){
+            this.props.navigation.navigate("Home");
+        }
+        else if(id === 3){
+            this.props.navigation.navigate("Favoris");
+        }
+        else if(id === 4){
+            this.props.navigation.navigate("Home");
+        }
+
+    }
+
     componentDidMount() {
 
 
@@ -97,7 +114,7 @@ export default class FavorisScreen extends React.Component {
 
             for(let k=0; k < this.state.recettes_tab.length; k++){
 
-                if(this.state.favoris_tab[i].recette === this.state.recettes_tab[k].id){
+                if(this.state.favoris_tab[i].recette === this.state.recettes_tab[k].id && this.state.favoris_tab[i].user === 1){
 
                     tableau_recettes.push(this.state.recettes_tab[k]);
                 }
@@ -107,29 +124,42 @@ export default class FavorisScreen extends React.Component {
         }
 
 
-        this.setState({recettes_tab : tableau_recettes});
 
-        //console.log(this.state.recettes_tab[0]);
+
+        let inverse_table_recette = [];
+        let place = 0;
+
+
+        for( let q = tableau_recettes.length - 1; q > -1; q--){
+
+            console.log(q);
+            inverse_table_recette[place]=tableau_recettes[q];
+            place++;
+        }
+
+        console.log(inverse_table_recette[0]);
+        this.setState({recettes_tab : inverse_table_recette});
+
 
     }
-
 
     render() {
 
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-                    <Header/>
+                    <Header style={styles.header}/>
 
 
                     <View style={styles.container}>
 
                         <TextInput
+
                             placeholder={"  Recherche..."}
                             style={styles.recherche}
                             onSubmitEditing={(event)=>this.search(event.nativeEvent.text)}
                         />
-                        <Sidebar/>
+                        <Sidebar display={this.displayNav}/>
                         <View style={styles.view}>
 
 
@@ -140,7 +170,6 @@ export default class FavorisScreen extends React.Component {
                                         : <Text style={styles.content}>Aucune recette disponible... ! Désolé !</Text>
                                 }
                             </View>
-
 
                         </View>
                     </View>
@@ -155,6 +184,11 @@ export default class FavorisScreen extends React.Component {
 
 const
     styles = StyleSheet.create({
+
+        header: {
+
+
+        },
         container: {
             flex: 1,
             backgroundColor: '#fff',
