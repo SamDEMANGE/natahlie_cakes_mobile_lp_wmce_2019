@@ -38,6 +38,7 @@ export default class HomeScreen extends React.Component {
     constructor(props){
         super(props);
         this.displayDetail=this.displayDetail.bind(this);
+        this.displayNav=this.displayNav.bind(this);
         this.search=this.search.bind(this);
         this.afficheLastRecettes=this.afficheLastRecettes.bind(this);
 
@@ -175,6 +176,23 @@ export default class HomeScreen extends React.Component {
 
     }
 
+    displayNav(id){
+
+        if(id === 1){
+            this.props.navigation.navigate("Home");
+        }
+        else if(id === 2){
+            this.props.navigation.navigate("Home");
+        }
+        else if(id === 3){
+            this.props.navigation.navigate("Favoris");
+        }
+        else if(id === 4){
+            this.props.navigation.navigate("Home");
+        }
+
+    }
+
     displayDetail(id){
 
        // console.log(this.props.navigation);
@@ -194,7 +212,7 @@ export default class HomeScreen extends React.Component {
                 >
 
                 <Header/>
-                    <Sidebar nb_recettes={this.state.recette.length>0 ? this.state.recette.length : 20}/>
+                    <Sidebar display={this.displayNav} nb_recettes={this.state.recette.length>0 ? this.state.recette.length : 20}/>
 
 
 

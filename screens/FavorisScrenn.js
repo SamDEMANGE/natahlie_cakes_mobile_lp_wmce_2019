@@ -20,8 +20,6 @@ export default class FavorisScrenn extends React.Component {
 
     }
 
-
-
     static navigationOptions = {
         //  header: null,
         title : 'Mes FavorisScrenn'
