@@ -6,9 +6,9 @@ import DetailsPreparation from "../components/DetailsPreparation";
 import DetailsAstucesComms from "../components/DetailsAstucesComms";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import {Toolbar, Button} from 'react-native-material-ui';
+import {Icon, Card , Button} from 'react-native-material-ui';
 
-import { Icon , Card} from 'react-native-material-ui';
+import { AirbnbRating, Rating} from 'react-native-elements';
 
 
 
@@ -360,6 +360,18 @@ export default class MainRecette extends React.Component {
                                     <View style={{flexDirection: 'row'}}>
                                         <Image source={require('../assets/images/four.png')} style={styles.sidebar}/>
                                         <Text>{this.state.recette.tps_cuisson}</Text>
+                                    </View>
+
+
+                                    <View style={{flexDirection: 'row'}}>
+                                        <Text>Difficulté</Text>
+
+
+                                        <Rating readonly={true}
+                                        ratingCount={5}
+                                        startingValue={this.state.recette.difficulte}
+                                        imageSize={30}
+                                        />
                                     </View>
 
                                 </Card>
