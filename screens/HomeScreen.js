@@ -1,28 +1,18 @@
 import React from 'react';
 
 import {
-    Image,
-    Platform,
     ScrollView,
     StyleSheet,
     Text, TextInput,
-    TouchableOpacity,
     View,
+    ActivityIndicator,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 
-import { MonoText } from '../components/StyledText';
 import ListeRecettes from "../components/ListeRecettes";
 import {bdd} from '../database';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-
 import {Icon} from 'react-native-material-ui';
-
-
-
-
-
 
 
 let recettes= bdd.ref('/Recettes');
@@ -62,11 +52,7 @@ export default class HomeScreen extends React.Component {
     componentDidMount() {
 
         all_recettes.once('value', (snapshot) => {
-            //   let data=snapshot.toJSON();
 
-            //  this.setState({recettes:(data)});
-            //   console.log('id: '+snapshot.id);
-            //console.log(snapshot);
             let data = snapshot.val();
             let recette = Object.values(data);
             this.setState({nb_total: recette.length});
@@ -76,11 +62,7 @@ export default class HomeScreen extends React.Component {
 
 
         recettes.once('value', (snapshot) => {
-            //   let data=snapshot.toJSON();
 
-            //  this.setState({recettes:(data)});
-         //   console.log('id: '+snapshot.id);
-            //console.log(snapshot);
             let data = snapshot.val();
             let recette = Object.values(data);
             this.setState({recette: recette});
@@ -97,7 +79,6 @@ export default class HomeScreen extends React.Component {
         this.setState({isLoadingComplete: false});
 
         if(this.state.recherche!==''){
-           // dernieres_recettes=bdd.ref('/Recettes').child('child_added').child('nom').orderByChild('nom').startAt(this.state.recherche).limitToFirst((this.state.recette.length + 20));
             let search=  this.state.recette.filter(({nom})=> nom.includes(this.state.recherche) || nom.includes(this.state.recherche.toLowerCase()));
            this.setState({recette: search});
         }
@@ -112,9 +93,6 @@ export default class HomeScreen extends React.Component {
             });
         }
 
-      // this.setState({isLoadingComplete: false});
-
-
 
         this.setState({isLoadingComplete: true});
 
@@ -123,8 +101,6 @@ export default class HomeScreen extends React.Component {
 
 
     search(value){
-
-
 
 
         this.setState({isLoadingComplete:false});
@@ -203,12 +179,10 @@ export default class HomeScreen extends React.Component {
 
                         {
                             this.state.isLoadingComplete === false || this.state.recette.length < this.state.nb_total
-                                ? <Icon name={'autorenew'} style={styles.icon}/> : <Text/>
+                                ? <ActivityIndicator size="large" color="#e22565" style={styles.icon}/>  : <Text/>
                         }
 
                      </View>
-
-
                 </ScrollView>
 
                 <Sidebar display={this.displayNav}/>
@@ -239,12 +213,10 @@ const
         view: {
             width: '100%',
             marginTop: 0,
+            justifyContent:'center'
         },
         content: {
             fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25,
-        },
-        icon: {
-            width: 200, height: 200, marginLeft: 100
         },
         recherche: {
             borderBottomColor: '#000000', borderWidth: 3,

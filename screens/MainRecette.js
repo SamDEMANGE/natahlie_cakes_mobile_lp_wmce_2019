@@ -1,5 +1,15 @@
 import React from "react";
-import {Image, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {
+    Image,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    ToastAndroid
+} from "react-native";
 import {bdd} from "../database";
 import DetailsRecette from "../components/DetailsRecette";
 import DetailsPreparation from "../components/DetailsPreparation";
@@ -9,8 +19,6 @@ import Header from "../components/Header";
 import {Icon, Card , Button} from 'react-native-material-ui';
 
 import { AirbnbRating, Rating} from 'react-native-elements';
-
-
 
 
 export default class MainRecette extends React.Component {
@@ -97,7 +105,8 @@ export default class MainRecette extends React.Component {
             this.setState({tags: tags});
             this.getId();
 
-        })
+        });
+
     }
 
 
@@ -187,17 +196,17 @@ export default class MainRecette extends React.Component {
 
         }
 
-
     }
 
     addFav() {
         bdd.ref('Favoris/fav_' + this.state.idSup).set({
             id: this.state.idSup,
             recette: this.state.recette.id,
-            users : 1
+            user : 1
         });
 
         this.getId();
+        ToastAndroid.show('Cette recette fait maintenant partie de vos favoris', ToastAndroid.SHORT);
     }
 
 
@@ -205,7 +214,7 @@ export default class MainRecette extends React.Component {
 
         Alert.alert(
             'Confirmation de suppression',
-            'Voulez vous vraiment supprimer ce FavorisScrenn? ',
+            'Voulez vous vraiment supprimer ce favoris? ',
             [
                 {text: 'Supprimer', onPress: () => this.deleteFav()},
 
@@ -225,6 +234,7 @@ export default class MainRecette extends React.Component {
         bdd.ref('/Favoris/fav_' + this.state.id_fav).remove();
         this.setState({etat_fav: false});
         this.setState({favicon_name: 'favorite-border'});
+        ToastAndroid.show('La recette a été supprimé de vos favoris', ToastAndroid.SHORT);
 
     }
 
@@ -280,9 +290,11 @@ export default class MainRecette extends React.Component {
 
         return (
             <View style={styles.container}>
+
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
                   <Header/>
-                    <Sidebar display={this.displayNav}/>
+
 
                         <View style={styles.view}>
                             <View style={this.state.status_ingr ? styles.onglets : styles.onglet}>
@@ -301,7 +313,7 @@ export default class MainRecette extends React.Component {
                         </View>
 
 
-                        <View style={{left: 55, right: 20, top: -200}}>
+                        <View style={{left: 55, right: 20}}>
                             <View style={{width: 300}}>
                                 <Card >
 
@@ -394,6 +406,9 @@ export default class MainRecette extends React.Component {
 
                         </View>
                 </ScrollView>
+
+                <Sidebar display={this.displayNav}/>
+
             </View>
 
 
@@ -404,24 +419,26 @@ export default class MainRecette extends React.Component {
 
 }
 
-
 const
     styles = StyleSheet.create({
         container: {
-            flex: 1,
+            marginTop:-15,
+            left:0,
+            top:0,
             backgroundColor: '#fff',
+
         },
 
         contentContainer: {
-            paddingTop: 30,
+            paddingTop: 30, justifyContent: 'center',
         },
         onglets: {
             borderColor: '#e22565', borderBottomColor: '#ffffff', paddingTop: 10, textAlign: 'center',
-            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0
         },
         onglet: {
             paddingTop: 10, textAlign: 'center', borderColor: '#ffffff',
-            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0, top: -225
+            borderWidth: 3, marginTop: 10, width: 110, marginLeft: 2, fontSize: 5, height: 70, left: 50, right: 0
         },
         view: {
            flexDirection: 'row'
@@ -440,6 +457,12 @@ const
         },
         content: {
             fontWeight: 'bold', fontSize:20, color: '#e22565'
+        },
+        recherche: {
+            borderBottomColor: '#000000', borderWidth: 3,
+            marginTop: 20,
+            width: '70%',
+            marginRight: '15%', marginLeft: '15%'
         }
 
     });
