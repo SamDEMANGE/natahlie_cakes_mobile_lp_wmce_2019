@@ -9,41 +9,28 @@ import {ToastAndroid} from 'react-native';
 
 
 let favoris= bdd.ref('/Favoris').orderByChild('id');
-let recettes= bdd.ref('/Recettes');
-let all_recettes=bdd.ref('/Favoris').orderByChild('user').equalTo(1);
 
-let taille = 19;
 
-const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-    const paddingToBottom = 20;
-    return layoutMeasurement.height + contentOffset.y >=
-        contentSize.height - paddingToBottom;
-};
 
-export default class FavorisScrenn extends React.Component {
+export default class PanierScrenn extends React.Component {
 
     constructor(props){
         super(props);
-        this.requetes=this.requetes.bind(this);
-        this.displayDetail=this.displayDetail.bind(this);
         this.displayNav=this.displayNav.bind(this);
-        this.trieFav=this.trieFav.bind(this);
 
     }
 
     static navigationOptions = {
         //  header: null,
-        title : 'Mes favoris'
+        title : 'Ma liste de course'
     };
 
     state = {
         isLoadingComplete: false,
-        recettes_tab_all: [],
         recettes_tab: [],
-        favoris_tab: [],
-        tmp_recette: [],
-        nb_total: 20,
-        recherche: '',
+
+
+
     };
 
     requetes() {
@@ -57,38 +44,9 @@ export default class FavorisScrenn extends React.Component {
             this.setState({isLoadingComplete: true});
         });
 
-        recettes.once('value', (snapshot) => {
-
-            let data = snapshot.val();
-            let recettes_tab = Object.values(data);
-            this.setState({recettes_tab_all: recettes_tab});
-
-            this.trieFav(19);
-
-
-        });
-
-        all_recettes.once('value', (snapshot) => {
-
-            let data = snapshot.val();
-            let recette = Object.values(data);
-            this.setState({nb_total: recette.length});
-
-            this.setState({isLoadingComplete: true});
-        });
-
-
-
     }
 
 
-    displayDetail(id){
-
-        this.props.navigation.navigate("Ingredients", {id: id});
-
-        this.setState({recettes_tab: this.state.recettes_tab});
-
-    }
 
     displayNav(id){
 
@@ -111,8 +69,13 @@ export default class FavorisScrenn extends React.Component {
     trieFav(){
 
 
+
+
+
         let tableau_recettes = [];
 
+        console.log(this.state.favoris_tab.length);
+        console.log(this.state.recettes_tab_all.length);
 
         for(let i=0; i < this.state.favoris_tab.length; i++){
 
@@ -129,8 +92,10 @@ export default class FavorisScrenn extends React.Component {
         }
 
 
+
         this.setState({recettes_tab : tableau_recettes});
 
+        console.log("tableau_recettes"+ tableau_recettes.length);
 
         this.setState({isLoadingComplete: true});
     }
@@ -144,39 +109,21 @@ export default class FavorisScrenn extends React.Component {
                 <NavigationEvents onWillFocus={payload => this.requetes()}/>
 
                 <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}  onScroll={({nativeEvent}) => {
-                    if (isCloseToBottom(nativeEvent))
+                    if (isCloseToBottom(nativeEvent)){
 
-                        if (this.state.isLoadingComplete === true && this.state.recettes_tab.length < this.state.nb_total){
-                            taille = taille +20;
-                            this.trieFav();
-                        }
+                    }
+
                 }}>
 
                     <Header/>
 
                     <View style={styles.container}>
 
-
                         <View style={styles.view}>
 
 
-                            <View style={styles.view}>
-
-                                {
-                                    this.state.recettes_tab.length > 0
-                                        ? <ListeRecettes items={this.state.recettes_tab} display={this.displayDetail}/>
-                                        : <Text style={styles.content}>Aucune recette disponible... ! Désolé !</Text>
-                                }
-
-
-                                {
-                                    this.state.isLoadingComplete === false || this.state.recettes_tab.length < this.state.nb_total
-                                        ? <ActivityIndicator size="large" color="#e22565" style={styles.icon}/>  : <Text/>
-                                }
-
-                            </View>
-
                         </View>
+
                     </View>
                 </ScrollView>
 

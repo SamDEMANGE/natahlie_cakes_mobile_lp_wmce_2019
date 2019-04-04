@@ -21,6 +21,12 @@ let all_recettes=bdd.ref('/Recettes');
 recettes=bdd.ref('/Recettes').limitToLast(20);
 
 
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+        contentSize.height - paddingToBottom;
+};
+
 
 export default class HomeScreen extends React.Component {
 
@@ -74,27 +80,32 @@ export default class HomeScreen extends React.Component {
 
     }
 
+
+
     afficheLastRecettes(){
 
-        this.setState({isLoadingComplete: false});
-
-        if(this.state.recherche!==''){
-            let search=  this.state.recette.filter(({nom})=> nom.includes(this.state.recherche) || nom.includes(this.state.recherche.toLowerCase()));
-           this.setState({recette: search});
-        }
-        else {
-            let dernieres_recettes=bdd.ref('/Recettes/').limitToLast((this.state.recette.length + 20));
-            dernieres_recettes.once('value', (snapshot)=>{
-                let data=snapshot.val();
-                let drecette=Object.values(data);
-                this.setState({recette: drecette });
-                this.setState({recette: this.state.recette.reverse()});
-                this.setState({tmp_recette: this.state.recette});
-            });
-        }
 
 
-        this.setState({isLoadingComplete: true});
+            this.setState({isLoadingComplete: false});
+
+            if(this.state.recherche!==''){
+                let search=  this.state.recette.filter(({nom})=> nom.includes(this.state.recherche) || nom.includes(this.state.recherche.toLowerCase()));
+                this.setState({recette: search});
+            }
+            else {
+                let dernieres_recettes=bdd.ref('/Recettes/').limitToLast((this.state.recette.length + 20));
+                dernieres_recettes.once('value', (snapshot)=>{
+                    let data=snapshot.val();
+                    let drecette=Object.values(data);
+                    this.setState({recette: drecette });
+                    this.setState({recette: this.state.recette.reverse()});
+                    this.setState({tmp_recette: this.state.recette});
+                    console.log("test");
+                });
+            }
+
+            this.setState({isLoadingComplete: true});
+
 
     }
 
@@ -140,14 +151,13 @@ export default class HomeScreen extends React.Component {
             this.props.navigation.navigate("Favoris");
         }
         else if(id === 4){
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Panier");
         }
 
     }
 
     displayDetail(id){
 
-       // console.log(this.props.navigation);
         console.log('index'+ id);
         this.props.navigation.navigate("Ingredients", {id: id});
 
@@ -160,7 +170,17 @@ export default class HomeScreen extends React.Component {
         return (
             <View style={styles.container}>
 
-                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} onMomentumScrollEnd={this.afficheLastRecettes}>
+                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} onScroll={({nativeEvent}) => {
+                    if (isCloseToBottom(nativeEvent)) {
+
+                        if(this.state.isLoadingComplete === true && this.state.recette.length < this.state.nb_total){
+
+                            this.afficheLastRecettes();
+
+                        }
+
+                    }
+                }}>
 
                     <Header/>
 
@@ -214,6 +234,9 @@ const
             width: '100%',
             marginTop: 0,
             justifyContent:'center'
+        },
+        icon: {
+            width: 200, height: 200, marginLeft: 100
         },
         content: {
             fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25,

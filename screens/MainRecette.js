@@ -21,6 +21,7 @@ import {Icon, Card , Button} from 'react-native-material-ui';
 import { AirbnbRating, Rating} from 'react-native-elements';
 
 
+
 export default class MainRecette extends React.Component {
 
 
@@ -32,7 +33,8 @@ export default class MainRecette extends React.Component {
         this.augmenteParts=this.augmenteParts.bind(this);
         this.displayNav=this.displayNav.bind(this);
 
-        this.favoriteFonction=this.favoriteFonction.bind(this);
+        this.favoriteFonction=this.favoriteFonction.bind(this)
+        this.listFonction=this.listFonction.bind(this);
         this.addFav=this.addFav.bind(this);
         this.deleteConfirm=this.deleteConfirm.bind(this);
         this.deleteFav=this.deleteFav.bind(this);
@@ -65,7 +67,9 @@ export default class MainRecette extends React.Component {
         status_comas: false,
         status_pers: false,
         favicon_name: 'favorite-border',
+        listicon_name: 'assignment',
         etat_fav: false,
+        etat_list: false,
         idSup : 0,
         id_fav: 0,
         utilisateurs: [],
@@ -198,6 +202,18 @@ export default class MainRecette extends React.Component {
 
     }
 
+    listFonction(){
+
+        if(this.state.etat_list===false) {
+            this.setState({listicon_name: 'check-circle'});
+            this.setState({etat_list:true})
+        }
+        else if(this.state.etat_list===true){
+            this.setState({listicon_name: 'assignment'});
+            this.setState({etat_list:false})
+        }
+    }
+
     addFav() {
         bdd.ref('Favoris/fav_' + this.state.idSup).set({
             id: this.state.idSup,
@@ -273,13 +289,13 @@ export default class MainRecette extends React.Component {
             this.props.navigation.navigate("Home");
         }
         else if(id === 2){
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Tags");
         }
         else if(id === 3){
             this.props.navigation.navigate("Favoris");
         }
         else if(id === 4){
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Panier");
         }
 
     }
@@ -332,6 +348,11 @@ export default class MainRecette extends React.Component {
                                         <TouchableOpacity  onPress={ () => this.favoriteFonction() }>
 
                                             <Icon name={this.state.favicon_name} />
+
+                                        </TouchableOpacity>
+                                        <TouchableOpacity  onPress={ () => this.listFonction() }>
+
+                                            <Icon name={this.state.listicon_name} />
 
                                         </TouchableOpacity>
 
