@@ -53,7 +53,7 @@ export default class TagsScreen extends Component {
 
 
           this.tags.push(Object.values(data.tags));
-      //  console.log(this.tags[1][1]);
+
 
             this.tags_recettes.push({data: (data), tags: Object.values(data.tags)});
             this.setState({list_recettes_tag: this.tags_recettes});
@@ -111,7 +111,7 @@ export default class TagsScreen extends Component {
             }
 
        let filter= this.hastags.filter(this.unique);
-        console.log(filter);
+
         this.setState({list_tags: filter});
         this.setState({title: <Text style={styles.title}> Liste des tags</Text>});
         this.setState({styles: (styles.badgeDisable)});
@@ -140,7 +140,7 @@ export default class TagsScreen extends Component {
             this.recettes=(Object.values(data));
 
 
-            console.log('TEST');
+
 
 
             this.setState({list_recettes: this.recettes});
@@ -155,8 +155,6 @@ export default class TagsScreen extends Component {
 
     displayRecette(tag){
 
-        console.log('tag : '+ tag);
-        console.log('recettes filtré');
 
 
 
@@ -177,7 +175,7 @@ export default class TagsScreen extends Component {
         });
 
 
-        console.log(filtre);
+
 
     }
 
