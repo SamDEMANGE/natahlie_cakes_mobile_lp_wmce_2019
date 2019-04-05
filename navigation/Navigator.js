@@ -8,6 +8,7 @@ import TagsScreen from '../screens/TagsScreen';
 
 import MainRecette from "../screens/MainRecette";
 import ListeRecettes from "../components/ListeRecettes";
+import ListeIngredients from "../components/ListeIngredients";
 import ListeTags from "../components/ListeTags";
 import PanierScreen from "../screens/PanierScreen";
 
@@ -17,7 +18,7 @@ const Navigator = createStackNavigator({
     Home: {screen: HomeScreen, component: ListeRecettes},
     Tags: {screen: TagsScreen, component: ListeTags},
     Favoris: {screen: FavorisScreen, component: ListeRecettes},
-    Panier: {screen: PanierScreen},
+    Panier: {screen: PanierScreen, component : ListeIngredients},
     Ingredients: {screen: MainRecette},
 });
 

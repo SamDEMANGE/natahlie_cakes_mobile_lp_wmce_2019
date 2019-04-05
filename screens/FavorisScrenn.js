@@ -49,6 +49,7 @@ export default class FavorisScrenn extends React.Component {
 
     requetes() {
 
+
         favoris.once('value', (snapshot) => {
 
             let data = snapshot.val();

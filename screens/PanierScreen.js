@@ -4,10 +4,7 @@ import ListeIngredients from "../components/ListeIngredients";
 import {bdd} from '../database';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import { NavigationEvents } from 'react-navigation';
-import {ToastAndroid} from 'react-native';
 import Divider from 'react-native-divider'
-import {Card} from "react-native-elements";
 
 
 let panier= bdd.ref('/Panier').orderByChild('id');
@@ -42,12 +39,15 @@ export default class PanierScrenn extends React.Component {
 
     componentDidMount() {
 
-        panier.once('value', (snapshot) => {
+        panier.on('value', (snapshot) => {
 
 
             let data = snapshot.val();
             let panier_tab = Object.values(data);
+            console.log(panier_tab);
             this.setState({panier_tab : panier_tab});
+            console.log(this.state.panier_tab);
+
 
             this.regroupIngr();
 
@@ -233,7 +233,7 @@ export default class PanierScrenn extends React.Component {
                             {
                                 this.state.isLoadingComplete === false
                                 ? <ActivityIndicator size="large" color="#e22565" style={styles.icon}/>
-                                : <ListeIngredients items={this.state.sameIngr_tab} />
+                                :  <ListeIngredients items={this.state.sameIngr_tab} />
                             }
 
 
