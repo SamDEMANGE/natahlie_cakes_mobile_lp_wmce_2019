@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { NavigationEvents } from 'react-navigation';
 import {ToastAndroid} from 'react-native';
+import Divider from 'react-native-divider'
 
 
 let favoris= bdd.ref('/Favoris').orderByChild('id');
@@ -154,19 +155,17 @@ export default class FavorisScrenn extends React.Component {
 
                     <Header/>
 
-                    <View style={styles.container}>
+                    <Divider orientation="center">
+                        <Text style={{ fontSize: 25 , color: '#e22565'}} h4>
+                            Liste de favoris
+                        </Text>
 
+                    </Divider>
 
                         <View style={styles.view}>
 
 
-                            <View style={styles.view}>
-
-                                {
-                                    this.state.recettes_tab.length > 0
-                                        ? <ListeRecettes items={this.state.recettes_tab} display={this.displayDetail}/>
-                                        : <Text style={styles.content}>Aucune recette disponible... ! Désolé !</Text>
-                                }
+                            <ListeRecettes items={this.state.recettes_tab} display={this.displayDetail}/>
 
 
                                 {
@@ -174,10 +173,8 @@ export default class FavorisScrenn extends React.Component {
                                         ? <ActivityIndicator size="large" color="#e22565" style={styles.icon}/>  : <Text/>
                                 }
 
-                            </View>
 
                         </View>
-                    </View>
                 </ScrollView>
 
                 <Sidebar display={this.displayNav}/>
@@ -206,7 +203,7 @@ const
         },
         view: {
             width: '100%',
-            marginTop: 0,
+            marginTop: -20,
             justifyContent:'center'
         },
         content: {

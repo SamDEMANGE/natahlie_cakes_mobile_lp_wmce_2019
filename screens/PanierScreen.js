@@ -1,14 +1,16 @@
 import React from "react";
 import {ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
-import ListeRecettes from "../components/ListeRecettes";
+import ListeIngredients from "../components/ListeIngredients";
 import {bdd} from '../database';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { NavigationEvents } from 'react-navigation';
 import {ToastAndroid} from 'react-native';
+import Divider from 'react-native-divider'
+import {Card} from "react-native-elements";
 
 
-let favoris= bdd.ref('/Favoris').orderByChild('id');
+let panier= bdd.ref('/Panier').orderByChild('id');
 
 
 
@@ -17,35 +19,41 @@ export default class PanierScrenn extends React.Component {
     constructor(props){
         super(props);
         this.displayNav=this.displayNav.bind(this);
+        this.regroupIngr=this.regroupIngr.bind(this);
+        this.groupSameIngr=this.groupSameIngr.bind(this);
+        this.metUnS=this.metUnS.bind(this);
 
     }
 
     static navigationOptions = {
-        //  header: null,
-        title : 'Ma liste de course'
+        title : 'Ma liste de courses'
     };
 
     state = {
         isLoadingComplete: false,
+        panier_tab: [],
         recettes_tab: [],
+        ingr_tab: [],
+        sameIngr_tab: [],
 
 
 
     };
 
-    requetes() {
+    componentDidMount() {
 
-        favoris.once('value', (snapshot) => {
+        panier.once('value', (snapshot) => {
+
 
             let data = snapshot.val();
-            let favoris_tab = Object.values(data);
-            this.setState({favoris_tab : favoris_tab.reverse()});
+            let panier_tab = Object.values(data);
+            this.setState({panier_tab : panier_tab});
 
-            this.setState({isLoadingComplete: true});
+            this.regroupIngr();
+
         });
 
     }
-
 
 
     displayNav(id){
@@ -66,38 +74,140 @@ export default class PanierScrenn extends React.Component {
     }
 
 
-    trieFav(){
+    regroupIngr(){
+
+        let tab_final = [];
+
+        for(let i=0; i < this.state.panier_tab.length; i++){
+
+            let tab_list = Object.values(this.state.panier_tab[i].list);
 
 
+            for(let k=0; k < tab_list.length; k++){
+
+                let tab_ingr = Object.values(tab_list);
+
+                tab_final.push(Object.values(tab_ingr[k]));
+
+            }
+        }
+
+        this.setState({ingr_tab : tab_final});
+
+        this.groupSameIngr(); //FONCTION QUI GROUPE LES INGREDIENTS ET LEUR QUANTITE POUR QU'IL N'Y AI PAS DE DOUBLONS
+
+        this.metUnS(); //FONCTION QUI RAJOUTE UN S
+
+        this.setState({isLoadingComplete : true});
+    }
+
+    groupSameIngr(){
+
+        let sameIngr_tab = [];
+
+        let etat_add = false;
 
 
+        let etat_add_sansmesure = true;
 
-        let tableau_recettes = [];
+        let ingr_tab = this.state.ingr_tab;
 
-        console.log(this.state.favoris_tab.length);
-        console.log(this.state.recettes_tab_all.length);
+        sameIngr_tab[0]=ingr_tab[0];
 
-        for(let i=0; i < this.state.favoris_tab.length; i++){
+        for(let i=1; i < ingr_tab.length; i++){
 
-            for(let k=0; k < this.state.recettes_tab_all.length; k++){
-
-                if(this.state.favoris_tab[i].recette === this.state.recettes_tab_all[k].id && this.state.favoris_tab[i].user === 1 && tableau_recettes.length <= taille){
+            etat_add=false;
 
 
-                    tableau_recettes.push(this.state.recettes_tab_all[k]);
+            if(ingr_tab[i].length === 3){ //TEST SI IL Y A UNE UNITE DE MESURE
+
+
+                for(let q=0; q < sameIngr_tab.length; q++){
+
+
+                    if(sameIngr_tab[q][1] === ingr_tab[i][1]){
+
+                        sameIngr_tab[q][2] = parseInt(sameIngr_tab[q][2]) + parseInt(ingr_tab[i][2]);
+                        q=sameIngr_tab.length;
+                        etat_add=true;
+
+                    }
+
                 }
+
+                if(etat_add === false){
+                    sameIngr_tab.push(ingr_tab[i]);
+                }
+
+
+            }
+
+            else{ //QUAND IL N'Y A PAS DE MESURE
+
+
+                if(etat_add_sansmesure === true){
+
+                    sameIngr_tab.push(ingr_tab[i]);
+                    etat_add_sansmesure = false
+
+                }
+                else{
+
+                    for(let q=0; q < sameIngr_tab.length; q++){
+
+
+                        if(sameIngr_tab[q][0] === ingr_tab[i][0]){
+
+                            sameIngr_tab[q][1] = parseInt(sameIngr_tab[q][1]) + parseInt(ingr_tab[i][1]);
+                            q=sameIngr_tab.length;
+                            etat_add=true;
+
+                        }
+
+                    }
+
+                    if(etat_add === false){
+                        sameIngr_tab.push(ingr_tab[i]);
+                    }
+
+                }
+
 
             }
 
         }
 
+        this.setState({sameIngr_tab : sameIngr_tab});
 
+    }
 
-        this.setState({recettes_tab : tableau_recettes});
+    metUnS(){
 
-        console.log("tableau_recettes"+ tableau_recettes.length);
+        let tab_ingr = this.state.sameIngr_tab;
 
-        this.setState({isLoadingComplete: true});
+        for(let i=0; i<tab_ingr.length; i++){
+
+            if(tab_ingr[i].length === 3){ //TEST SI Il Y A UNE UNITE DE MESURE
+
+                if(tab_ingr[i][2] >= 2  && (tab_ingr[i][0] ==="pot" || tab_ingr[i][0] ==="paquet")){
+
+                    tab_ingr[i][0] = tab_ingr[i][0] +'s';
+                }
+            }
+
+        /*  else{ //PAS UNITE DE MESURE
+
+                if(tab_ingr[i][1] >= 1 ){
+
+                    tab_ingr[i][0] = tab_ingr[i][0] +'s';
+                }
+
+            } */
+
+        }
+
+        this.setState({sameIngr_tab : tab_ingr});
+
     }
 
 
@@ -106,25 +216,31 @@ export default class PanierScrenn extends React.Component {
         return (
             <View style={styles.container}>
 
-                <NavigationEvents onWillFocus={payload => this.requetes()}/>
 
-                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}  onScroll={({nativeEvent}) => {
-                    if (isCloseToBottom(nativeEvent)){
-
-                    }
-
-                }}>
+                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
                     <Header/>
 
-                    <View style={styles.container}>
+                    <Divider orientation="center">
+                        <Text style={{ fontSize: 25,  color: '#e22565'}} h2>
+                            Liste de courses
+                        </Text>
+
+                    </Divider>
 
                         <View style={styles.view}>
+
+                            {
+                                this.state.isLoadingComplete === false
+                                ? <ActivityIndicator size="large" color="#e22565" style={styles.icon}/>
+                                : <ListeIngredients items={this.state.sameIngr_tab} />
+                            }
+
+
 
 
                         </View>
 
-                    </View>
                 </ScrollView>
 
                 <Sidebar display={this.displayNav}/>
@@ -132,8 +248,6 @@ export default class PanierScrenn extends React.Component {
             </View>
         );
     }
-
-
 }
 
 
@@ -145,19 +259,21 @@ const
             left:0,
             top:0,
             backgroundColor: '#fff',
+            textAlign: 'center',
 
         },
 
         contentContainer: {
-            paddingTop: 30, justifyContent: 'center',
+            paddingTop: 30, justifyContent: 'center',textAlign: 'center',
         },
         view: {
             width: '100%',
             marginTop: 0,
-            justifyContent:'center'
+            justifyContent:'center',
+            textAlign: 'center',
         },
         content: {
-            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25,
+            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25,textAlign: 'center',
         },
         icon: {
             width: 200, height: 200, marginLeft: 100

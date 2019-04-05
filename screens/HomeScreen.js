@@ -43,7 +43,6 @@ export default class HomeScreen extends React.Component {
 
 
     static navigationOptions = {
-      //  header: null,
         title : 'Accueil'
     };
 
@@ -239,7 +238,7 @@ const
             width: 200, height: 200, marginLeft: 100
         },
         content: {
-            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25,
+            fontWeight: 'bold', fontSize:20, color: '#e22565', width: 300, height: 100, marginTop: 25, marginLeft: '18%'
         },
         recherche: {
             borderBottomColor: '#000000', borderWidth: 3,

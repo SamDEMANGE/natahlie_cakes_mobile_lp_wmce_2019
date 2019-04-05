@@ -21,23 +21,23 @@ export default class DetailsRecette extends Component {
         return (
 
 
-                <View style={{width: 300}}>
-                    <Card>
-                <Text style={styles.title}>Ingrédients :</Text>
-                    {
-                        this.props.ingredients.map((val,i)=>{
-                            return(
-                                <Text style={styles.content}>{i+1}.  {val.nom} - {(val.qte*this.props.nb_parts)/this.props.nb_parts_init}  {val.mesure}</Text>
-                            )
-                        })
-                    }
+                <View style={{width: '100%',  marginTop:20}}>
+                    <Card >
+                        <Text style={styles.title}>Ingrédients :</Text>
+                        {
+                            this.props.ingredients.map((val,i)=>{
+                                return(
+                                    <Text style={styles.content}>  {val.nom}: {parseInt(val.qte + 1)}  {val.mesure}</Text>
+                                )
+                            })
+                        }
                     </Card>
                     <Card>
                     <Text style={styles.title}> Matériel : </Text>
                     {
                         this.props.materiels.map((val,i)=>{
                             return(
-                                <Text style={styles.content}>{i+1}.   {val}</Text>
+                                <Text style={styles.content}>   {val}</Text>
                             )
                         })
                     }
@@ -54,9 +54,9 @@ export default class DetailsRecette extends Component {
 const
     styles = StyleSheet.create({
         title: {
-            marginTop:20, fontWeight: 'bold', fontSize:20
+            marginTop:10, fontWeight: 'bold', fontSize:25, padding:10, marginBottom:10
         },
         content: {
-            marginTop: 10
+            marginTop: 10, padding:10
         }
     });

@@ -20,7 +20,7 @@ export default class Sidebar extends Component {
                 <TouchableOpacity
 
                     onPress={()=>this.props.display(1)}>
-                    <Image  source={require('../assets/images/add.png')} style={styles.sidebar}/>
+                    <Image  source={require('../assets/images/home.png')} style={styles.sidebar}/>
 
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -38,7 +38,7 @@ export default class Sidebar extends Component {
                 <TouchableOpacity
 
                     onPress={()=>this.props.display(4)}>
-                    <Image  source={require('../assets/images/shopping.png')} style={styles.sidebar_last}/>
+                    <Image  source={require('../assets/images/liste.png')} style={styles.sidebar_last}/>
 
                 </TouchableOpacity>
 

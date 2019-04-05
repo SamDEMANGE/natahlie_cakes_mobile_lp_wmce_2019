@@ -28,35 +28,36 @@ constructor(props){
     render() {
         return (
 
-            <View style={{width: 300}}>
+            <View style={{width: '100%',  marginTop:20}}>
                 <Card>
-                <Text style={styles.title}>Astuces :</Text>
+                <Text style={styles.title}>  Astuces :</Text>
                 {
                     this.props.astuces.map((val,i)=>{
                         return(
-                            <Text style={styles.content}>{i+1}.  {val} </Text>
+                            <Text style={styles.content}>{val} </Text>
                         )
                     })
                 }
                 </Card>
                 <Card>
-                <Text style={styles.title}> Commentaires : </Text>
+                <Text style={styles.title}>  Commentaires : </Text>
                 {
                     this.props.commentaires.map((val,i)=> {
 
 
                         return (
                                                 <Text
-                                                    style={styles.content}>{val.id}.
+                                                    style={styles.content}>
 
 
                                                     {this.props.commentateurs.filter(({id})=> id === val.user).map(
                                                         (v, ind)=>{
-                                                            return <Text>  {v.prenom} {v.nom} :   </Text>
+                                                            return <Text style={{fontWeight: 'bold'}}>{v.prenom} {v.nom} :   </Text>
                                                         }
                                                     )}
 
-                                                  {val.contenue}</Text>
+                                                  {val.contenue}
+                                                </Text>
                                             )
 
 
@@ -77,9 +78,9 @@ constructor(props){
 const
     styles = StyleSheet.create({
         title: {
-            marginTop:20, fontWeight: 'bold', fontSize:20
+            marginTop:20, fontWeight: 'bold', fontSize:25,
         },
         content: {
-            marginTop: 10
+            marginTop: 10, padding:20
         }
     });
