@@ -7,14 +7,13 @@ import FavorisScreen from '../screens/FavorisScrenn';
 import TagsScreen from '../screens/TagsScreen';
 import MainRecette from "../screens/MainRecette";
 import ListeRecettes from "../components/ListeRecettes";
-import PanierScreen from "../screens/PanierScreen";
+import ListeTags from "../components/ListeTags";
 
 
 const Navigator = createStackNavigator({
 
     Home: {screen: HomeScreen, component: ListeRecettes},
-    Panier: {screen: PanierScreen},
-    Tags: {screen: TagsScreen},
+    Tags: {screen: TagsScreen, component: ListeTags},
     Favoris: {screen: FavorisScreen, component: ListeRecettes},
     Ingredients: {screen: MainRecette},
 });

@@ -8,7 +8,8 @@ export default class ListeTags extends Component {
 
     static propsTypes={
 
-        tags: PropTypes.array
+        tags: PropTypes.array,
+        display: PropTypes.any
 
     };
 
@@ -19,70 +20,41 @@ export default class ListeTags extends Component {
 
     constructor(props){
         super(props);
-        //   this.displayDetail=this.displayDetail.bind(this);
-        this.cleanDoublons=this.cleanDoublons.bind(this);
-        this.hashtags=[];
-    }
-
-    cleanDoublons(array) {
-        /* let i, j, len = array.length, out = [], obj = {};
-         for (i = 0; i < len; i++) {
-             obj[array[i]] = 0;
-         }
-         for (j in obj) {
-             out.push(j);
-         }
-         return out;*/
-
-
 
     }
 
 
-    render()
+    render() {
 
-    {
-
-
-
-            this.props.tags.map(
-                (item, index)=>{
-                    this.hashtags.push(Object.values(item.tags));
-                    console.log(Object.values(item.tags));
-                }
-            );
-
-
-        return (
+        return(
             <View>
-                {this.props.tags.map((item, index) => {
+        {this.props.tags.map((item, index) => {
+            return (
+                <View style={styles.view}>
+                    <TouchableOpacity
+                        onPress={()=>this.props.display(item)}>
 
-                    return (
-                        <View style={styles.view}>
-                            {
 
-                                Object.values(item.tags).map((value, index)=>{
+                        <Card containerStyle={styles.card}>
+                            <Text style={styles.content}>
+                                #{item}
+                            </Text>
+                        </Card>
 
-                                    return(
-                                        <Card containerStyle={styles.card}>
-                                            <Text style={styles.content}>
-                                                {index} {value}
-                                            </Text>
-                                        </Card>
-                                    )
-                                })
-                            }
+                    </TouchableOpacity>
 
 
 
-                        </View>
+
+                </View>
 
 
-                    )
-                })}
+            )
+        })}
             </View>
-        );
+    )
     }
+
 }
 
 
